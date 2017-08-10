@@ -1,0 +1,31 @@
+{% extends "bscapp/base.html" %}
+{% load static %}
+
+{% block addHead %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
+
+<script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!-- page content -->
+<div style="float:left; margin-left: 66px; width: 740px">
+	<h1>Related Documents</h1>
+	<ul>
+		<li><a href="https://hbr.org/1993/09/putting-the-balanced-scorecard-to-work">Harvard Business Review</a> - Examples of the balanced scorecard in use.</li>
+		<li><a href="https://www.youtube.com/watch?v=M_IlOlywryw">Youtube Video Explanation</a> - A short video detailing how the balanced scorecard is used.</li>
+        <li><a href="http://www.balancedscorecard.org/BSC-Basics/About-the-Balanced-Scorecard">About the Balanced Scorecard</a> - A description of the balanced scorecard.</li>
+        <li><a href="https://en.wikipedia.org/wiki/Balanced_scorecard">Wikipedia</a> - Wikipedia entry for Balanced Scorecard.</li>
+	</ul>
+</div>
+<!-- page content -->
+
+<!-- Page Menus -->
+<div style="float: left; margin-left: 66px; margin-bottom: 66px;">
+	{% include "bscapp/online_steps.html" %}
+</div>
+<!-- Page Menus -->
+{% endblock %}

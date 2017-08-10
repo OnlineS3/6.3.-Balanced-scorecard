@@ -1,0 +1,37 @@
+{% extends "bscapp/base.html" %}
+{% load static %}
+
+{% block addHead %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div style="float:left; margin-left: 66px; width: 740px">
+	<h1>Guide</h1>
+
+    <p>Four perspectives are available in the balanced scorecard:</p></br>
+        <center><img src="{% static 'img/bscapp_perspectives.png' %}"></center></br>
+        <p>Using the input row, data can be entered into the balanced scorecard:</p></br>
+        <center><img src="{% static 'img/bscapp_inputs.png' %}"></center></br>
+        <p>Clicking on a data entry will reveal any characters that have been cut off:</p></br>
+        <center><img src="{% static 'img/bscapp_modal.png' %}"></center></br>
+        <p>To edit the title click the pencil icon next to the title, and then the floppy disk icon to save:</p></br>
+        <center><img src="{% static 'img/bscapp_titleedit.png' %}"></center></br>
+        <p>Using the side menu, it is possible to save and load the balanced scorecard in multiple ways. It is possible to save and load from the database. It is also possible to export and import the balanced scorecard to JSON. Lastly, it is possible to export to PDF.</p></br>
+        <center><img src="{% static 'img/bscapp_menu.png' %}"></center></br>
+
+</div>
+<!-- page content -->
+
+<!-- Page Menus -->
+<div style="float: left; margin-left: 66px; margin-bottom: 66px;">
+	{% include "bscapp/online_steps.html" %}
+</div>
+<!-- Page Menus -->
+{% endblock %}

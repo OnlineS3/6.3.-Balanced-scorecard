@@ -1,0 +1,156 @@
+div.table {
+	width:742px;
+	/*height:300px;*/
+	border: 1px solid #0099CC;
+	/*overflow: auto;*/
+	position: relative;
+	margin-bottom: 66px;
+}
+
+#learngrow_perspective {
+	display: block;
+}
+
+#business_perspective {
+	display: none;
+}
+
+#customer_perspective {
+	display: none;
+}
+
+#financial_perspective {
+	display: none;
+}
+
+div.row {
+	width:740px;
+	height: 50px;
+	position: relative;
+	/*border-bottom: 1px solid black;*/
+}
+
+div.hoverrow:hover {
+	background: #b3ecff;
+}
+
+div.field {
+	width: 148px;
+	height: 50px;
+	float:left;
+	/*border-left:1px solid black;*/
+	
+
+	display:flex;
+	justify-content:center;
+	align-items:center;
+
+	font-size: 13px;
+	font-family: verdana,sans-serif 
+}
+
+div.modal {
+	display:none;
+	background: white;
+	border: 2px solid black;
+	width: 600px;
+	height: 200px;
+	z-index: 1;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -100px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+div.first {
+	border-left: none;
+}
+
+div.titlerow {
+	background: #0099CC;
+	color: white;
+	font-weight: bold;
+	font-size: 13px;
+	font-family: verdana,sans-serif 
+}
+
+.div-button-inactive {
+	background-color: #f6f6f6;
+	width: 100px;
+	height: 90px;
+	margin: 15px;
+	opacity: 1;
+	float: left;
+	font-size: 13px;
+	font-family: verdana,sans-serif
+}
+
+.div-button-inactive i {
+	opacity: 0.5;
+}
+
+.div-button-inactive span {
+	opacity: 0.5;
+}
+
+.div-button-inactive:hover{
+	cursor: pointer;
+}
+
+.div-button-active i {
+	color:white;
+}
+
+.div-button-active span {
+	color: white;
+}
+
+.div-button-active {
+	background-color: #1372aa;
+	width: 100px;
+	height: 90px;
+	margin: 15px;
+	float: left;
+	font-size: 13px;
+	font-family: verdana,sans-serif
+}
+
+input.tableinput {
+	width: 138px;
+	height: 40px;
+}
+
+button.tableinput {
+	width: 138px;
+	height: 40px;
+}
+
+.scorecard_modal {
+	display:none;
+	background: white;
+	border: 2px solid black;
+	width: 600px;
+	height: 200px;
+	z-index: 1;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -100px;
+}
