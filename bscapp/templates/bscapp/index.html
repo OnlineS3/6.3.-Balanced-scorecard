@@ -2,281 +2,44 @@
 {% load static %}
 
 {% block addHead %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/bsc.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/SWOT.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<script type="text/javascript" src="{% static 'js/bsc.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/SWOT.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/transition.js' %}"></script>
 {% endblock %}
 
-<!-- Application's space -->
 {% block content %}
-
-<!-- Page Content -->
-<div style="float:left; margin-left: 66px; width:745px;">
-	<h1 id="section-title">Balanced Scorecard</h1>
-
-	<div id="scorecard_name_div">
-		<h1 id="scorecard_name" style="display: inline-block;">Scorecard Name... </h1>
-		<i onclick="showScorecardNameEdit()" class="fa fa-pencil" aria-hidden="true"></i>
-	</div>
-
-	<div id="scorecard_edit_div" style="display:none">
-		<textarea id="scorecard_edit" rows="1" cols="50">Scorecard Name...</textarea>
-		<i onclick="hideScorecardNameEdit()" class="fa fa-floppy-o" aria-hidden="true"></i>
-	</div>
-
-	<div style="clear:both;">
-		<div id="learn_grow_button" class="div-button-active" style="margin-left: 116px;" onclick="set_layout('learngrow')">
-			<div name="icons" style="margin:5px">
-				<i class="fa fa-graduation-cap" aria-hidden="true"></i>
-			</div>
-			<div name="text" style="margin:5px;margin-top:0px;">
-				<span>Learning and Growth Perspective</span>
-			</div>
-		</div>
-		<div id="business_button" class="div-button-inactive" onclick="set_layout('business')">
-			<div name="icons" style="margin:5px">
-				<i class="fa fa-briefcase" aria-hidden="true"></i>
-			</div>
-			<div name="text" style="padding:3px">
-				<span>Business Process Perspective</span>
-			</div>
-		</div>
-		<div id="customer_button" class="div-button-inactive" onclick="set_layout('customer')">
-			<div name="icons" style="margin:5px">
-				<i class="fa fa-user" aria-hidden="true"></i>
-			</div>
-			<div name="text" style="padding:3px">
-				<span>Customer Perspective</span>
-			</div>
-		</div>
-		<div id="financial_button" style="clear:right;" class="div-button-inactive" onclick="set_layout('financial')">
-			<div name="icons" style="margin:5px">
-				<i class="fa fa-money" aria-hidden="true"></i>
-			</div>
-			<div name="text" style="padding:3px">
-				<span>Financial Perspective</span>
-			</div>
-		</div>
-	</div>
-
-    <div id="perspective_div">
-        <div id="learngrow_perspective">
-            <h1 id="perspectivetitle" style="clear:left;">Learning and Growth Perspective</h1>
-
-            <div id= "learngrowtable" class="table" style="margin-top: 21px;">
-                <div class="row titlerow" id="titlerow">
-                    <div class="field first">
-                        Performance Index
-                    </div>
-                    <div class="field">
-                        Method of Measure
-                    </div>
-                    <div class="field">
-                        Target Value
-                    </div>
-                    <div class="field">
-                        Plan of Action
-                    </div>
-                    <div class="field">
-                        Add/Delete
-                    </div>
-                </div>
-                <div class="row" id="learngrowtable_inputrow">
-                    <div class="field first">
-                        <input class="tableinput" type="text" name="learngrowtable_name_input" id="learngrowtable_name_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="learngrowtable_measure_input" id="learngrowtable_measure_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="learngrowtable_target_input" id="learngrowtable_target_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="learngrowtable_plan_input" id="learngrowtable_plan_input">
-                    </div>
-                    <div class="field">
-                        <button class="tableinput" onclick="addRow('learngrowtable');">Add Row</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="business_perspective">
-            <h1 id="perspectivetitle" style="clear:left;">Business Perspective</h1>
-
-            <div id="businesstable" class="table" style="margin-top: 21px;">
-                <div class="row titlerow" id="titlerow">
-                    <div class="field first">
-                        Performance Index
-                    </div>
-                    <div class="field">
-                        Method of Measure
-                    </div>
-                    <div class="field">
-                        Target Value
-                    </div>
-                    <div class="field">
-                        Plan of Action
-                    </div>
-
-                    <div class="field">
-                        Add/Delete
-                    </div>
-                </div>
-                <div class="row" id="businesstable_inputrow">
-                    <div class="field first">
-                        <input class="tableinput" type="text" name="businesstable_name_input" id="businesstable_name_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="businesstable_measure_input" id="businesstable_measure_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="businesstable_target_input" id="businesstable_target_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="businesstable_plan_input" id="businesstable_plan_input">
-                    </div>
-                    <div class="field">
-                        <button class="tableinput" onclick="addRow('businesstable');">Add Row</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="customer_perspective">
-            <h1 id="perspectivetitle" style="clear:left;">Customer Perspective</h1>
-
-            <div id= "customertable" class="table" style="margin-top: 21px;">
-                <div class="row titlerow" id="titlerow">
-                    <div class="field first">
-                        Performance Index
-                    </div>
-                    <div class="field">
-                        Method of Measure
-                    </div>
-                    <div class="field">
-                        Target Value
-                    </div>
-                    <div class="field">
-                        Plan of Action
-                    </div>
-                    <div class="field">
-                        Add/Delete
-                    </div>
-                </div>
-                <div class="row" id="customertable_inputrow">
-                    <div class="field first">
-                        <input class="tableinput" type="text" name="customertable_name_input" id="customertable_name_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="customertable_measure_input" id="customertable_measure_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="customertable_target_input" id="customertable_target_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="customertable_plan_input" id="customertable_plan_input">
-                    </div>
-                    <div class="field">
-                        <button class="tableinput" onclick="addRow('customertable');">Add Row</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="financial_perspective">
-            <h1 id="perspectivetitle" style="clear:left;">Financial Perspective</h1>
-
-            <div id= "financialtable" class="table" style="margin-top: 21px;">
-                <div class="row titlerow" id="titlerow">
-                    <div class="field first">
-                        Performance Index
-                    </div>
-                    <div class="field">
-                        Method of Measure
-                    </div>
-                    <div class="field">
-                        Target Value
-                    </div>
-                    <div class="field">
-                        Plan of Action
-                    </div>
-                    <div class="field">
-                        Add/Delete
-                    </div>
-                </div>
-                <div class="row" id="financialtable_inputrow">
-                    <div class="field first">
-                        <input class="tableinput" type="text" name="financialtable_name_input" id="financialtable_name_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="financialtable_measure_input" id="financialtable_measure_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="financialtable_target_input" id="financialtable_target_input">
-                    </div>
-                    <div class="field">
-                        <input class="tableinput" type="text" name="financialtable_plan_input" id="financialtable_plan_input">
-                    </div>
-                    <div class="field">
-                        <button class="tableinput" onclick="addRow('financialtable');">Add Row</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div style="float:left; margin-left: 66px; width: 740px">
+        <h1>About Balanced Scorecard</h1>
+        <p>The balanced scorecard is a tool that aims to provide strategic planning and management. It aims to help users keep
+                track of core aspects of a project, measure their success, and set goals. This will allow users to look back on
+                historical data about their project and compare their current measures with the goals they had previously set.
+            <br>
+            The balanced scorecard focuses on four perspectives: learning and growth perspective, business perspective, customer
+                perspective, and the financial perspective. The learning and growth perspective focuses on maintaining a current and
+                modern knowledge of new technologies; it focuses on training workers in new areas that can help the most.  The
+                business perspective is used to produce metrics about how well the products and services that a business provides
+                are meeting customer requirements as well as the mission and strategic vision of the business. The customer
+                perspective focuses on customer satisfaction. The financial perspective focuses on how well the business is doing
+                financially and analyses financial data.
+            <br>
+            A balanced score card should result in improved processes, motivated and educated employees, monitored progress, greater
+                customer satisfaction, and support a holistic perspective on the financial robustness of the business model as well
+                as aid better informed investment planning.
+            <br>
+            The balanced scorecard is not a one-time implementation and should act as a feedback system that is improved continuously.
+        </p>
     </div>
-</div>
-
-<form id="download_data_form" method="post" action="{% url 'bscapp_downloaddata' %}">
-    {% csrf_token %}
-    <input type="hidden" id="tablejson_save" name="tablejson">
-</form>
-
-<div id="scorecard_load_modal" class="scorecard_modal" style="display: none;">
-	<span class="close" onclick="hideModal('scorecard_load_modal')">&times</span>
-	<h2>Which scorecard should be loaded?</h2>
-
-	<select id="scorecard_select">
-	</select>
-	<button onclick="loadScorecard()">Load</button>
-</div>
-<!-- Page Content -->
 
 <!-- Page Menus -->
-<div style="float: left; margin-left: 66px; margin-top: 61px">
-	<div class="sidemenu-div" >
-		<div>
-			<ul class="sidemenu">
-				<li id="savetables" onclick="saveScorecard()" action="{% url 'bscapp_savetables'%}"><i class="fa fa-floppy-o"></i> Save</li>
-				<li id="loadtables" onclick="getScorecards()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-folder-open"></i> Open</li>
-                <li id="loadtables" onclick="createAndClickFile()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-upload"></i> Upload from JSON</li>
-                <li onclick="setSaveForm();"><i class="fa fa-download "></i> Export to JSON</li>
-				<li onclick="export_pdf();"><i class="fa fa-file-pdf-o "></i> Export to PDF</li>
-				<li onclick="if(leavingPage()){window.location = 'guide.html'}"><i class="fa fa-question-circle-o"></i> Help</li>
-				<li onclick="if(leavingPage()){window.location = 'about.html'}"><i class="fa fa-info-circle"></i> About</li>
-			</ul>
-		</div>
-		<div class="sidemenu-readmore">
-			Balanced Scorecard Menu
-		</div>
-	</div>
-	<button id="getscorecards" onclick="getScorecards()" action="{% url 'bscapp_getscorecards' %}" style="display:none;">Get Scorecards</button>
-
+<div style="float: left; margin-left: 66px; margin-bottom: 66px;">
 	{% include "bscapp/online_steps.html" %}
 </div>
-
-<form id="exporttopdf_form" method="post" action="{% url 'bscapp_exporttopdf' %}" style="display:none;">
-    {% csrf_token %}
-    <input type="hidden" name="html_string" id="perspectivediv_html">
-</form>
 <!-- Page Menus -->
-
-<!-- Application's space -->
 {% endblock %}

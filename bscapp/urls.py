@@ -15,4 +15,5 @@ urlpatterns = [
 	url(r'^callback/$', views.callback, name='bscapp_callback'),
 	url(r'^exporttopdf$', views.export_to_pdf, name='bscapp_exporttopdf'),
 	url(r'^$', views.index, name='bscapp_index'),
+	url(r'^access$', views.callback, name='bscapp_access')
 ]
