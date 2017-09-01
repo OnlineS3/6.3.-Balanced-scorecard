@@ -4,13 +4,13 @@
 {% block addHead %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bsc.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}"> -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="{% static 'js/bsc.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'js/transition.js' %}"></script>
 {% endblock %}
 
@@ -71,8 +71,11 @@
             <h1 id="perspectivetitle" style="clear:left;">Learning and Growth Perspective</h1>
 
             <div id= "learngrowtable" class="table" style="margin-top: 21px;">
-                <div class="row titlerow" id="titlerow">
+                <div class="titlerow" id="titlerow">
                     <div class="field first">
+                        Year
+                    </div>
+                    <div class="field">
                         Performance Index
                     </div>
                     <div class="field">
@@ -80,6 +83,9 @@
                     </div>
                     <div class="field">
                         Target Value
+                    </div>
+                    <div class="field">
+                        Actual Value
                     </div>
                     <div class="field">
                         Plan of Action
@@ -90,6 +96,9 @@
                 </div>
                 <div class="row" id="learngrowtable_inputrow">
                     <div class="field first">
+                        <input class="tableinput" type="text" name="learngrowtable_year_input" id="learngrowtable_year_input">
+                    </div>
+                    <div class="field">
                         <input class="tableinput" type="text" name="learngrowtable_name_input" id="learngrowtable_name_input">
                     </div>
                     <div class="field">
@@ -97,6 +106,9 @@
                     </div>
                     <div class="field">
                         <input class="tableinput" type="text" name="learngrowtable_target_input" id="learngrowtable_target_input">
+                    </div>
+                    <div class="field">
+                        <input class="tableinput" type="text" name="learngrowtable_actual_input" id="learngrowtable_actual_input">
                     </div>
                     <div class="field">
                         <input class="tableinput" type="text" name="learngrowtable_plan_input" id="learngrowtable_plan_input">
@@ -114,13 +126,19 @@
             <div id="businesstable" class="table" style="margin-top: 21px;">
                 <div class="row titlerow" id="titlerow">
                     <div class="field first">
-                        Performance Index
+                        Year
+                    </div>
+                    <div class="field">
+                    	Performance Index
                     </div>
                     <div class="field">
                         Method of Measure
                     </div>
                     <div class="field">
                         Target Value
+                    </div>
+                    <div class="field">
+                        Actual Value
                     </div>
                     <div class="field">
                         Plan of Action
@@ -132,6 +150,9 @@
                 </div>
                 <div class="row" id="businesstable_inputrow">
                     <div class="field first">
+                        <input class="tableinput" type="text" name="businesstable_year_input" id="businesstable_year_input">
+                    </div>
+                    <div class="field">
                         <input class="tableinput" type="text" name="businesstable_name_input" id="businesstable_name_input">
                     </div>
                     <div class="field">
@@ -139,6 +160,9 @@
                     </div>
                     <div class="field">
                         <input class="tableinput" type="text" name="businesstable_target_input" id="businesstable_target_input">
+                    </div>
+                    <div class="field">
+                        <input class="tableinput" type="text" name="businesstable_actual_input" id="businesstable_actual_input">
                     </div>
                     <div class="field">
                         <input class="tableinput" type="text" name="businesstable_plan_input" id="businesstable_plan_input">
@@ -156,6 +180,9 @@
             <div id= "customertable" class="table" style="margin-top: 21px;">
                 <div class="row titlerow" id="titlerow">
                     <div class="field first">
+                        Year
+                    </div>
+                    <div class="field">
                         Performance Index
                     </div>
                     <div class="field">
@@ -163,6 +190,9 @@
                     </div>
                     <div class="field">
                         Target Value
+                    </div>
+                    <div class="field">
+                        Actual Value
                     </div>
                     <div class="field">
                         Plan of Action
@@ -173,6 +203,9 @@
                 </div>
                 <div class="row" id="customertable_inputrow">
                     <div class="field first">
+                        <input class="tableinput" type="text" name="customertable_year_input" id="customertable_year_input">
+                    </div>
+                    <div class="field">
                         <input class="tableinput" type="text" name="customertable_name_input" id="customertable_name_input">
                     </div>
                     <div class="field">
@@ -180,6 +213,9 @@
                     </div>
                     <div class="field">
                         <input class="tableinput" type="text" name="customertable_target_input" id="customertable_target_input">
+                    </div>
+                    <div class="field">
+                        <input class="tableinput" type="text" name="customertable_actual_input" id="customertable_actual_input">
                     </div>
                     <div class="field">
                         <input class="tableinput" type="text" name="customertable_plan_input" id="customertable_plan_input">
@@ -197,6 +233,9 @@
             <div id= "financialtable" class="table" style="margin-top: 21px;">
                 <div class="row titlerow" id="titlerow">
                     <div class="field first">
+                        Year
+                    </div>
+                    <div class="field">
                         Performance Index
                     </div>
                     <div class="field">
@@ -204,6 +243,9 @@
                     </div>
                     <div class="field">
                         Target Value
+                    </div>
+                    <div class="field">
+                        Actual Value
                     </div>
                     <div class="field">
                         Plan of Action
@@ -214,6 +256,9 @@
                 </div>
                 <div class="row" id="financialtable_inputrow">
                     <div class="field first">
+                        <input class="tableinput" type="text" name="financialtable_year_input" id="financialtable_year_input">
+                    </div>
+                    <div class="field">
                         <input class="tableinput" type="text" name="financialtable_name_input" id="financialtable_name_input">
                     </div>
                     <div class="field">
@@ -221,6 +266,9 @@
                     </div>
                     <div class="field">
                         <input class="tableinput" type="text" name="financialtable_target_input" id="financialtable_target_input">
+                    </div>
+                    <div class="field">
+                        <input class="tableinput" type="text" name="financialtable_actual_input" id="financialtable_actual_input">
                     </div>
                     <div class="field">
                         <input class="tableinput" type="text" name="financialtable_plan_input" id="financialtable_plan_input">
@@ -268,8 +316,6 @@
 		</div>
 	</div>
 	<button id="getscorecards" onclick="getScorecards()" action="{% url 'bscapp_getscorecards' %}" style="display:none;">Get Scorecards</button>
-
-	{% include "bscapp/online_steps.html" %}
 </div>
 
 <form id="exporttopdf_form" method="post" action="{% url 'bscapp_exporttopdf' %}" style="display:none;">

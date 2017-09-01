@@ -61,112 +61,112 @@ function set_layout(layoutName)
 	}
 }
 
-function createModal(content)
-{
+function createModal(content) {
 	var modal = document.createElement("div")
 	modal.id = "modal_" + modalNumber;
 	modalNumber = modalNumber +1;
 	modal.className = "modal";
+
 	var modalClose = document.createElement("span");
-	modalClose.onclick = function(){hideModal(modal.id)};
 	modalClose.className = "close";
 	modalClose.innerHTML = "&times";
-	var modalContent = document.createElement("p");
-	modalContent.innerHTML = content;
+
+	/*
+		var modalContent = document.createElement("p");
+		modalContent.innerHTML = content;
+	*/
+
+	var modalEdit = document.createElement("input");
+	modalEdit.className = "modalEdit"
+	modalEdit.type = "text";
+	modalEdit.value = content;
+
 	modal.appendChild(modalClose);
-	modal.appendChild(modalContent);
+	//modal.appendChild(modalContent);
+	modal.appendChild(modalEdit);
+
 	return modal;
 }
 
-function createRow(name, measure, target, plan)
-{
+function createRow(year, name, measure, target, actual, plan) {
 	var row = document.createElement("div");
 	row.className = "row hoverrow";
-	var fieldName = document.createElement("div");
-	fieldName.className = "field first";
 
-	if(name.length > 15)
-	{
-		//create modal div
-		var modal = createModal(name);
-		row.appendChild(modal);
-		fieldName.innerHTML = name.substring(0, 15).concat("...");
-		var nameid = "".concat(modal.id);
-		fieldName.onclick = function() {displayModal(nameid)};
-	}
-	else
-	{
-		fieldName.innerHTML = name;
-	}
+	var fieldYear = document.createElement("div");
+	fieldYear.className = "field first";
+
+	var modal = createModal(year);
+	row.appendChild(modal);
+	fieldYear.innerHTML = year;
+	var yearid = "".concat(modal.id);
+	fieldYear.onclick = function() {displayModal(this, yearid)};
+
+	var fieldName = document.createElement("div");
+	fieldName.className = "field";
+
+	var modal = createModal(name);
+	row.appendChild(modal);
+	fieldName.innerHTML = name;
+	var nameid = "".concat(modal.id);
+	fieldName.onclick = function() {displayModal(this, nameid)};
 
 	var fieldMeasure = document.createElement("div");
 	fieldMeasure.className = "field";
-	if(measure.length > 15)
-	{
-		//create modal div
-		var modal = createModal(measure);
-		row.appendChild(modal);
-		fieldMeasure.innerHTML = measure.substring(0, 15).concat("...");
-		var measureid = "".concat(modal.id);
-		fieldMeasure.onclick = function() {displayModal(measureid)};
-	}
-	else
-	{
-		fieldMeasure.innerHTML = measure;
-	}
+	var modal = createModal(measure);
+	row.appendChild(modal);
+	fieldMeasure.innerHTML = measure;
+	var measureid = "".concat(modal.id);
+	fieldMeasure.onclick = function() {displayModal(this, measureid)};
 
 	var fieldTarget = document.createElement("div");
 	fieldTarget.className = "field";
-	if(target.length > 15)
-	{
-		//create modal div
-		var modal = createModal(target);
-		row.appendChild(modal);
-		fieldTarget.innerHTML = target.substring(0, 15).concat("...");
-		var targetid = "".concat(modal.id);
-		fieldTarget.onclick = function() {displayModal(targetid)};
-	}
-	else
-	{
-		fieldTarget.innerHTML = target;
-	}
+	var modal = createModal(target);
+	row.appendChild(modal);
+	fieldTarget.innerHTML = target;
+	var targetid = "".concat(modal.id);
+	fieldTarget.onclick = function() {displayModal(this, targetid)};
+
+	var fieldActual = document.createElement("div");
+	fieldActual.className = "field";
+	var modal = createModal(actual);
+	row.appendChild(modal);
+	fieldActual.innerHTML = actual;
+	var actualid = "".concat(modal.id);
+	fieldActual.onclick = function() {displayModal(this, actualid)};
 
 	var fieldPlan = document.createElement("div");
 	fieldPlan.className = "field";
-	if(plan.length > 15)
-	{
-		//create modal div
-		var modal = createModal(plan);
-		row.appendChild(modal);
-		fieldPlan.innerHTML = plan.substring(0, 15).concat("...");
-		var planid = "".concat(modal.id);
-		fieldPlan.onclick = function() {displayModal(planid)};
-	}
-	else
-	{
-		fieldPlan.innerHTML = plan;
-	}
+	var modal = createModal(plan);
+	row.appendChild(modal);
+	fieldPlan.innerHTML = plan;
+	var planid = "".concat(modal.id);
+	fieldPlan.onclick = function() {displayModal(this, planid)};
 
 	var fieldDelete = document.createElement("div");
 	fieldDelete.className = "field";
 	fieldDelete.id = "inputfield";
 	fieldDelete.innerHTML = '<button class="tableinput" onclick="deleteRow(this.parentNode.parentNode);">Delete</button>';
 
+	row.appendChild(fieldYear);
 	row.appendChild(fieldName);
 	row.appendChild(fieldMeasure);
 	row.appendChild(fieldTarget);
+	row.appendChild(fieldActual);
 	row.appendChild(fieldPlan);
 	row.appendChild(fieldDelete);
+
 	return row;
 }
 
-function createInputRow(idName)
-{
+function createInputRow(idName) {
 	var row = document.createElement("div");
 	row.id = idName.concat("_inputrow");
 	row.className = "row";
+	var fieldYear = document.createElement("div");
+	fieldYear.className = "field first";
+	fieldYear.innerHTML = '<input class="tableinput" type="text" name="year_input" id="'+idName+'_year_input">';
 	var fieldName = document.createElement("div");
-	fieldName.className = "field first";
+	fieldName.className = "field";
 	fieldName.innerHTML = '<input class="tableinput" type="text" name="name_input" id="'+idName+'_name_input">';
 	var fieldMeasure = document.createElement("div");
 	fieldMeasure.className = "field";
@@ -174,25 +174,33 @@ function createInputRow(idName)
 	var fieldTarget = document.createElement("div");
 	fieldTarget.className = "field";
 	fieldTarget.innerHTML = '<input class="tableinput" type="text" name="target_input" id="'+idName+'_target_input">';
+	var fieldActual = document.createElement("div");
+	fieldActual.className = "field";
+	fieldActual.innerHTML = '<input class="tableinput" type="text" name="actual_input" id="'+idName+'_actual_input">';
 	var fieldPlan = document.createElement("div");
 	fieldPlan.className = "field";
 	fieldPlan.innerHTML = '<input class="tableinput" type="text" name="plan_input" id="'+idName+'_plan_input">';
 	var fieldAdd = document.createElement("div");
 	fieldAdd.className = "field";
 	fieldAdd.innerHTML = '<button class="tableinput" onclick="addRow(' + "'" + idName + "'" + ');">Add Row</button>';
+
+	row.appendChild(fieldYear);
 	row.appendChild(fieldName);
 	row.appendChild(fieldMeasure);
 	row.appendChild(fieldTarget);
+	row.appendChild(fieldActual);
 	row.appendChild(fieldPlan);
 	row.appendChild(fieldAdd);
+
 	return row;
 }
 
-function addRow(idName)
-{
+function addRow(idName) {
+	var year = document.getElementById(idName + "_year_input").value;
 	var name = document.getElementById(idName + "_name_input").value;
 	var measure = document.getElementById(idName + "_measure_input").value;
 	var target = document.getElementById(idName + "_target_input").value;
+	var actual = document.getElementById(idName + "_actual_input").value;
 	var plan = document.getElementById(idName + "_plan_input").value;
 
 	var table = document.getElementById(idName);
@@ -200,7 +208,7 @@ function addRow(idName)
 	var inputRow = document.getElementById(idName + "_inputrow");
 	inputRow.parentNode.removeChild(inputRow);
 
-	table.appendChild(createRow(name, measure, target, plan));
+	table.appendChild(createRow(year, name, measure, target, actual, plan));
 	table.appendChild(createInputRow(idName));
 }
 
@@ -220,10 +228,14 @@ function deleteRow(thisRow)
 	thisRow.parentNode.removeChild(thisRow);
 }
 
-function displayModal(modalId)
-{
-	console.log("modalId: " + modalId);
-	document.getElementById(modalId).style.display = "block";
+function displayModal(field, modalId) {
+	//console.log("modalId: " + modalId);
+	var modal = document.getElementById(modalId);
+	modal.style.display = "block";
+	modal.firstChild.onclick = function() {
+		field.innerText = modal.lastChild.value;
+		this.parentElement.style.display = "none";
+	};
 }
 
 function hideModal(modalId)
@@ -231,52 +243,51 @@ function hideModal(modalId)
 	document.getElementById(modalId).style.display = "none";
 }
 
-function generateJSON()
-{
-	scn=document.getElementById("scorecard_name").innerHTML;
+function generateJSON() {
+	var scn = document.getElementById("scorecard_name").innerHTML;
 	var output = '{"scorecard_name":"'.concat(scn).concat('",');
 	var output = output + '"tables":{';
 	var tablesarray = [document.getElementById("learngrowtable"),document.getElementById("businesstable"),document.getElementById("customertable"),document.getElementById("financialtable")];
 
-	for(i = 0; i < tablesarray.length; i++)
-	{
-		output = output.concat('"'+tablesarray[i].id+'":{"rows":[')
+	for(var i = 0; i < tablesarray.length; i++) {
+		output = output.concat('"' + tablesarray[i].id + '":{"rows":[');
 
 		var rows = tablesarray[i].childNodes;
-		for(j = 0; j < rows.length; j++)
-		{
-			if(rows[j].nodeType == 1 && !rows[j].id.includes("inputrow") && rows[j].id != "titlerow")
-			{
 
+		for(var j = 0; j < rows.length; j++) {
+			if(rows[j].nodeType == 1 && !rows[j].id.includes("inputrow") && rows[j].id != "titlerow") {
 				var fields = rows[j].childNodes;
-				output = output.concat('{');
+                output = output.concat('{');
+
+                output = output.concat('"year":');
+                output = output.concat('"').concat(fields[0].innerText.substr(1)).concat('",');
 
 				output = output.concat('"name":');
-				output = output.concat('"').concat(fields[0].innerHTML).concat('"').concat(",");
+				output = output.concat('"').concat(fields[1].innerText.substr(1)).concat('",');
 
 				output = output.concat('"measure":');
-				output = output.concat('"').concat(fields[1].innerHTML).concat('"').concat(",");
+				output = output.concat('"').concat(fields[2].innerText.substr(1)).concat('",');
 
 				output = output.concat('"target":');
-				output = output.concat('"').concat(fields[2].innerHTML).concat('"').concat(",");
+				output = output.concat('"').concat(fields[3].innerText.substr(1)).concat('",');
+
+				output = output.concat('"actual":');
+				output = output.concat('"').concat(fields[4].innerText.substr(1)).concat('",');
 
 				output = output.concat('"poa":');
-				output = output.concat('"').concat(fields[3].innerHTML).concat('"');
+				output = output.concat('"').concat(fields[5].innerText.substr(1)).concat('"');
 
 				output = output.concat('},');
 			}
 		}
 		if(output[output.length-1] == ",")
-		{
 			output = output.substring(0, output.length - 1);
-		}
 		output = output.concat(']},');
 	}
 	if(output[output.length-1] == ",")
-	{
 		output = output.substring(0, output.length - 1);
-	}
 	output = output.concat('}}');
+
 	return output;
 }
 
@@ -382,19 +393,16 @@ function populateModalSelect(input)
 	document.getElementById("scorecard_load_modal").style.display = "block";
 }
 
-function loadJson(input)
-{
+function loadJson(input) {
 	var obj = JSON.parse(input);
 	var tableNames = Object.keys(obj.tables);
-	var tables = [obj.tables.learngrowtable, obj.tables.businesstable, obj.tables.customertable, obj.tables.financialtable]
-	for(i = 0; i < tables.length; i++)
-	{
+	var tables = [obj.tables.learngrowtable, obj.tables.businesstable, obj.tables.customertable, obj.tables.financialtable];
+	for(var i = 0; i < tables.length; i++) {
 		var table = document.getElementById(tableNames[i]);
 
 		var rows = tables[i].rows;
-		for(j = 0; j < rows.length; j++)
-		{
-			var newRow = createRow(rows[j].name, rows[j].measure, rows[j].target, rows[j].poa);
+		for(var j = 0; j < rows.length; j++) {
+			var newRow = createRow(rows[j].year, rows[j].name, rows[j].measure, rows[j].target, rows[j].actual, rows[j].poa);
 
 			var inputRow = document.getElementById(tableNames[i] + "_inputrow");
 			inputRow.parentNode.removeChild(inputRow);
@@ -505,11 +513,11 @@ $(document).ready(function() {
    });
 
 
-    $('.btn-login').click(function(e) {
+    $('.login-btn').click(function(e) {
       e.preventDefault();
       auth.authorize({
-        audience: 'https://' + 'onlines3.eu.auth0.com' + '/userinfo',
-        scope: 'openid profile',
+        audience: 'https://onlines3.eu.auth0.com/userinfo',
+        scope: 'openid profile email',
         responseType: 'code',
         redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
       });

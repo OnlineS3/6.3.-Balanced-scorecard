@@ -2,15 +2,13 @@
 {% load static %}
 
 {% block addHead %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/SWOT.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bsc.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<script type="text/javascript" src="{% static 'js/SWOT.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bsc.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/transition.js' %}"></script>
 {% endblock %}
 
@@ -36,10 +34,4 @@
             The balanced scorecard is not a one-time implementation and should act as a feedback system that is improved continuously.
         </p>
     </div>
-
-<!-- Page Menus -->
-<div style="float: left; margin-left: 66px; margin-bottom: 66px;">
-	{% include "bscapp/online_steps.html" %}
-</div>
-<!-- Page Menus -->
 {% endblock %}

@@ -63,21 +63,44 @@ def save_tables(request):
 	#2 = business
 	#3 = financial
 
-	for row in parsed_json["tables"]["learngrowtable"]["rows"]:
-		tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=0, name=row["name"], measure=row["measure"], target=row["target"], plan_of_action=row["poa"])
-		tablerow_instance.save()
+        tablerow.objects.filter(scorecard=scorecard).delete()
+        
+        for row in parsed_json["tables"]["learngrowtable"]["rows"]:
+                tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=0, year=row["year"], name=row["name"],
+                                                            measure=row["measure"], target=row["target"], actual=row["actual"],
+                                                            plan_of_action=row["poa"])
+                tablerow_instance.save()
 
-	for row in parsed_json["tables"]["customertable"]["rows"]:
-		tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=1, name=row["name"], measure=row["measure"], target=row["target"], plan_of_action=row["poa"])
-		tablerow_instance.save()
+                observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+                observation_instance.save()
 
-	for row in parsed_json["tables"]["businesstable"]["rows"]:
-		tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=2, name=row["name"], measure=row["measure"], target=row["target"], plan_of_action=row["poa"])
-		tablerow_instance.save()
+        for row in parsed_json["tables"]["customertable"]["rows"]:
+                tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=1, year=row["year"], name=row["name"],
+                                                            measure=row["measure"], target=row["target"], actual=row["actual"],
+                                                            plan_of_action=row["poa"])
+                tablerow_instance.save()
 
-	for row in parsed_json["tables"]["financialtable"]["rows"]:
-		tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=3, name=row["name"], measure=row["measure"], target=row["target"], plan_of_action=row["poa"])
-		tablerow_instance.save()
+                observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+                observation_instance.save()
+
+        for row in parsed_json["tables"]["businesstable"]["rows"]:
+                tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=2, year=row["year"], name=row["name"],
+                                                            measure=row["measure"], target=row["target"], actual=row["actual"],
+                                                            plan_of_action=row["poa"])
+                tablerow_instance.save()
+
+                observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+                observation_instance.save()
+
+        for row in parsed_json["tables"]["financialtable"]["rows"]:
+                tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=3, year=row["year"], name=row["name"],
+                                                            measure=row["measure"], target=row["target"], actual=row["actual"],
+                                                            plan_of_action=row["poa"])
+                tablerow_instance.save()
+
+                observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+                observation_instance.save()
+        
 	#return redirect('index')
 	return HttpResponse(text_json)
 
@@ -92,13 +115,13 @@ def load_tables(request):
 
 	for r in rows:
 		if r.table == 0:
-			learngrow += '{"name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "poa": "' + r.plan_of_action + '"},'
+			learngrow += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '"},'
 		elif r.table == 1:
-			customer += '{"name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "poa": "' + r.plan_of_action + '"},'
+			customer += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '"},'
 		elif r.table == 2:
-			business += '{"name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "poa": "' + r.plan_of_action + '"},'
+			business += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '"},'
 		elif r.table == 3:
-			financial += '{"name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "poa": "' + r.plan_of_action + '"},'
+			financial += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '"},'
 
 	if learngrow.endswith(","):
 		learngrow = learngrow[:len(learngrow)-1]
