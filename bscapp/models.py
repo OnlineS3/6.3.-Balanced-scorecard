@@ -14,7 +14,7 @@ class Scorecard(models.Model):
 class tablerow(models.Model):
     scorecard = models.ForeignKey(Scorecard, on_delete=models.CASCADE)
     table = models.IntegerField()
-    year = models.PositiveSmallIntegerField()
+    year = models.CharField(max_length=4)
     name = models.CharField(max_length=100)
     measure = models.CharField(max_length=100)
     target = models.CharField(max_length=100)

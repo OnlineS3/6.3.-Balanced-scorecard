@@ -3,9 +3,10 @@ from django.http import HttpResponse, FileResponse
 from django.template import loader
 from django.contrib.auth import authenticate,login,logout
 
+#UNCOMMENT FOR LINUX
 #from weasyprint import HTML, CSS
 
-from .models import tablerow,Scorecard
+from .models import tablerow,Scorecard, Observation
 import json
 import pdfkit
 
@@ -26,6 +27,9 @@ def guide(request):
 
 def about(request):
 	return render(request, 'bscapp/about.html')
+
+def access(request):
+	return render(request, 'bscapp/access_app.html')
 
 def related(request):
 	return render(request, 'bscapp/related_documents.html')
@@ -52,8 +56,10 @@ def save_tables(request):
 
 	scorecard_name = parsed_json["scorecard_name"]
 	if Scorecard.objects.filter(scorecard_name=scorecard_name).count() == 0:
-		scorecard_instance = Scorecard.objects.create(user_email=request.session['bscapp_profile']['email'], scorecard_name=scorecard_name)
+		scorecard_instance = Scorecard.objects.create(user_email=request.session['bscapp_profile']['nickname'], scorecard_name=scorecard_name)
 		scorecard_instance.save()
+
+	#TODO anyone can edit a scorecard if they know the name of it, should filter by name and user...
 	
 	scorecard = Scorecard.objects.filter(scorecard_name=scorecard_name).first()
 
@@ -142,7 +148,7 @@ def load_tables(request):
 	return HttpResponse(json)
 
 def get_scorecard_for_user(request):
-	scorecards = Scorecard.objects.filter(user_email=request.session['bscapp_profile']['email'])
+	scorecards = Scorecard.objects.filter(user_email=request.session['bscapp_profile']['nickname'])
 	scorecards_json = '{"scorecards":['
 
 	for sc in scorecards:
@@ -163,8 +169,11 @@ def download_data(request):
 	return response
 
 def export_to_pdf(request):
-	# pdf = HTML(string=request.POST['html_string']).write_pdf(stylesheets=[CSS(filename="/home/django/balancedscorecard/bscapp/static/css/bscs.css"), CSS(filename="/home/django/balancedscorecard/bscapp/static/css/layout.css")])
+	#FOR LINUX
+	#pdf = HTML(string=request.POST['html_string']).write_pdf(stylesheets=[CSS(filename="/home/django/balancedscorecard/bscapp/static/css/bscs.css"), CSS(filename="/home/django/balancedscorecard/bscapp/static/css/layout.css")])
+	#return FileResponse(pdf, content_type='application/pdf')
 
+	#FOR WINDOWS
 	html_string = request.POST['html_string']
 	config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
 	css = [
@@ -175,7 +184,6 @@ def export_to_pdf(request):
 	response = FileResponse(pdf, content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename=balanced_scorecard.pdf'
 	return response
-	#return FileResponse(pdf, content_type='application/pdf')
 
 def callback(request):
 	code = request.GET['code']

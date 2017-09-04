@@ -256,26 +256,27 @@ function generateJSON() {
 
 		for(var j = 0; j < rows.length; j++) {
 			if(rows[j].nodeType == 1 && !rows[j].id.includes("inputrow") && rows[j].id != "titlerow") {
+				console.log("TEST");
 				var fields = rows[j].childNodes;
                 output = output.concat('{');
 
                 output = output.concat('"year":');
-                output = output.concat('"').concat(fields[0].innerText.substr(1)).concat('",');
+                output = output.concat('"').concat(fields[6].innerText).concat('",');
 
 				output = output.concat('"name":');
-				output = output.concat('"').concat(fields[1].innerText.substr(1)).concat('",');
+				output = output.concat('"').concat(fields[7].innerText).concat('",');
 
 				output = output.concat('"measure":');
-				output = output.concat('"').concat(fields[2].innerText.substr(1)).concat('",');
+				output = output.concat('"').concat(fields[8].innerText).concat('",');
 
 				output = output.concat('"target":');
-				output = output.concat('"').concat(fields[3].innerText.substr(1)).concat('",');
+				output = output.concat('"').concat(fields[9].innerText).concat('",');
 
 				output = output.concat('"actual":');
-				output = output.concat('"').concat(fields[4].innerText.substr(1)).concat('",');
+				output = output.concat('"').concat(fields[10].innerText).concat('",');
 
 				output = output.concat('"poa":');
-				output = output.concat('"').concat(fields[5].innerText.substr(1)).concat('"');
+				output = output.concat('"').concat(fields[11].innerText).concat('"');
 
 				output = output.concat('},');
 			}

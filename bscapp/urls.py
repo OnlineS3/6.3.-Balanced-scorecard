@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
 	url(r'^guide/$', views.guide, name='bscapp_guide'),
 	url(r'^about/$', views.about, name='bscapp_about'),
+	url(r'^access/$', views.access, name='bscapp_access'),
 	url(r'^related/$', views.related, name='bscapp_related'),
 	url(r'^loginview/$', views.login_view, name='bscapp_loginview'),
 	url(r'^logoutview/$', views.logout, name='bscapp_logoutview'),
@@ -15,5 +16,4 @@ urlpatterns = [
 	url(r'^callback/$', views.callback, name='bscapp_callback'),
 	url(r'^exporttopdf$', views.export_to_pdf, name='bscapp_exporttopdf'),
 	url(r'^$', views.index, name='bscapp_index'),
-	url(r'^access$', views.callback, name='bscapp_access')
 ]
