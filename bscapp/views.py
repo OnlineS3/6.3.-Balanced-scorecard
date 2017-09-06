@@ -25,9 +25,6 @@ def index(request):
 def guide(request):
 	return render(request, 'bscapp/guide.html')
 
-def about(request):
-	return render(request, 'bscapp/about.html')
-
 def access(request):
 	return render(request, 'bscapp/access_app.html')
 
@@ -56,7 +53,7 @@ def save_tables(request):
 
 	scorecard_name = parsed_json["scorecard_name"]
 	if Scorecard.objects.filter(scorecard_name=scorecard_name).count() == 0:
-		scorecard_instance = Scorecard.objects.create(user_email=request.session['bscapp_profile']['nickname'], scorecard_name=scorecard_name)
+		scorecard_instance = Scorecard.objects.create(user_email=request.session['bscapp_profile']['email'], scorecard_name=scorecard_name)
 		scorecard_instance.save()
 
 	#TODO anyone can edit a scorecard if they know the name of it, should filter by name and user...
@@ -148,7 +145,7 @@ def load_tables(request):
 	return HttpResponse(json)
 
 def get_scorecard_for_user(request):
-	scorecards = Scorecard.objects.filter(user_email=request.session['bscapp_profile']['nickname'])
+	scorecards = Scorecard.objects.filter(user_email=request.session['bscapp_profile']['email'])
 	scorecards_json = '{"scorecards":['
 
 	for sc in scorecards:

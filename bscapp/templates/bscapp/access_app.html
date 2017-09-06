@@ -76,10 +76,10 @@
                         Year
                     </div>
                     <div class="field">
-                        Performance Index
+                        Performance</br>Index
                     </div>
                     <div class="field">
-                        Method of Measure
+                        Method of</br>Measure
                     </div>
                     <div class="field">
                         Target Value
@@ -129,10 +129,10 @@
                         Year
                     </div>
                     <div class="field">
-                    	Performance Index
+                    	Performance</br>Index
                     </div>
                     <div class="field">
-                        Method of Measure
+                        Method of</br>Measure
                     </div>
                     <div class="field">
                         Target Value
@@ -183,10 +183,10 @@
                         Year
                     </div>
                     <div class="field">
-                        Performance Index
+                        Performance</br>Index
                     </div>
                     <div class="field">
-                        Method of Measure
+                        Method of</br>Measure
                     </div>
                     <div class="field">
                         Target Value
@@ -236,10 +236,10 @@
                         Year
                     </div>
                     <div class="field">
-                        Performance Index
+                        Performance</br>Index
                     </div>
                     <div class="field">
-                        Method of Measure
+                        Method of</b>Measure
                     </div>
                     <div class="field">
                         Target Value
@@ -307,8 +307,8 @@
                 <li id="loadtables" onclick="createAndClickFile()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-upload"></i> Upload from JSON</li>
                 <li onclick="setSaveForm();"><i class="fa fa-download "></i> Export to JSON</li>
 				<li onclick="export_pdf();"><i class="fa fa-file-pdf-o "></i> Export to PDF</li>
-				<li onclick="if(leavingPage()){window.location = 'guide.html'}"><i class="fa fa-question-circle-o"></i> Help</li>
-				<li onclick="if(leavingPage()){window.location = 'about.html'}"><i class="fa fa-info-circle"></i> About</li>
+				<li onclick="window.location = '{% url 'bscapp_guide' %}'"><i class="fa fa-question-circle-o"></i> Help</li>
+				<li onclick="window.location = '{% url 'bscapp_index' %}'"><i class="fa fa-info-circle"></i> About</li>
 			</ul>
 		</div>
 		<div class="sidemenu-readmore">

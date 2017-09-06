@@ -63,16 +63,16 @@
 		<div class='bottom-section'>
 			<div class="menu">
 				<ul>
-					<li><a href="{% url 'bscapp_about' %}">About</a></li>
+					<li><a href="{% url 'bscapp_index' %}">About</a></li>
 					<li><a href="{% url 'bscapp_guide' %}">Guide</a></li>
 					<li><a href="{% url 'bscapp_related' %}">Related Documents</a></li>
 					<li><a id='tool' href="{% url 'bscapp_access' %}">Access to application</a></li>
 				</ul>
 			</div>
 
-            {% if request.session.bscapp_profile.nickname %}
+            {% if request.session.bscapp_profile.email %}
                 <div class='user-btns'>
-                    <span style="color:white;">{{ request.session.bscapp_profile.nickname }}</span>
+                    <span style="color:white;">{{ request.session.bscapp_profile.email }}</span>
                     <button class='logout-btn' onclick="document.getElementById('logout-form').submit();"> Sign out </button>
                 </div>
                 <form id="logout-form" method="post" action="{% url 'bscapp_logoutview' %}">
