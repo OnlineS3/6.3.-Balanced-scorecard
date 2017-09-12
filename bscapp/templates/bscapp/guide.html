@@ -8,6 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <script type="text/javascript" src="{% static 'js/bsc.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script>
 {% endblock %}
 
@@ -32,6 +33,16 @@
 <!-- Page Menus -->
 <div style="float: left; margin-left: 66px; margin-bottom: 66px;">
 	<!-- {% include "bscapp/online_steps.html" %} -->
+    <aside id='sidebar'>
+        <a href="{% static 'data/Balanced_Scorecard_Guideline.pdf' %}" target="_blank">
+            <button class="alt"> Download Guide  <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+        </a>
+
+        <div></div>
+        <a href="{% url 'bscapp_access' %}">
+            <button id="access_app_button"> Access to application <img src="{% static 'img/access-icon.png' %}" width="20"></button>
+        </a>
+    </aside>
 </div>
 <!-- Page Menus -->
 {% endblock %}

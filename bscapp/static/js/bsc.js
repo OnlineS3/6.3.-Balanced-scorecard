@@ -523,7 +523,19 @@ $(document).ready(function() {
         redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
       });
     });
+
+    $('.register-btn').click(function(e) {
+      e.preventDefault();
+      auth.authorize({
+        audience: 'https://onlines3.eu.auth0.com/userinfo',
+        scope: 'openid profile email',
+        responseType: 'code',
+        redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
+      });
+    });
 });
+
+
 
 /*
 destroys element that triggered the event

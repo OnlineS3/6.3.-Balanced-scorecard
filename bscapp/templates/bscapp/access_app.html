@@ -302,8 +302,9 @@
 	<div class="sidemenu-div" >
 		<div>
 			<ul class="sidemenu">
-				<li id="savetables" onclick="saveScorecard()" action="{% url 'bscapp_savetables'%}"><i class="fa fa-floppy-o"></i> Save</li>
-				<li id="loadtables" onclick="getScorecards()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-folder-open"></i> Open</li>
+
+				<li id="savetables" {% if not request.session.bscapp_profile.email %} style="background:grey;" title="Please log in to save."{% endif %} onclick="saveScorecard()" action="{% url 'bscapp_savetables'%}"><i class="fa fa-floppy-o"></i> Save</li>
+				<li id="loadtables" {% if not request.session.bscapp_profile.email %} style="background:grey;" title="Please log in to load."{% endif %} onclick="getScorecards()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-folder-open"></i> Open</li>
                 <li id="loadtables" onclick="createAndClickFile()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-upload"></i> Upload from JSON</li>
                 <li onclick="setSaveForm();"><i class="fa fa-download "></i> Export to JSON</li>
 				<li onclick="export_pdf();"><i class="fa fa-file-pdf-o "></i> Export to PDF</li>
@@ -315,7 +316,14 @@
 			Balanced Scorecard Menu
 		</div>
 	</div>
+
 	<button id="getscorecards" onclick="getScorecards()" action="{% url 'bscapp_getscorecards' %}" style="display:none;">Get Scorecards</button>
+
+    <aside id='sidebar'>
+        <a href="{% static 'data/Balanced_Scorecard_Guideline.pdf' %}" target="_blank">
+            <button class="alt"> Download Guide  <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+        </a>
+    </aside>
 </div>
 
 <form id="exporttopdf_form" method="post" action="{% url 'bscapp_exporttopdf' %}" style="display:none;">

@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse, FileResponse
+from django.http import HttpResponse, FileResponse,Http404
 from django.template import loader
 from django.contrib.auth import authenticate,login,logout
+import os
 
 #UNCOMMENT FOR LINUX
 #from weasyprint import HTML, CSS
@@ -24,6 +25,13 @@ def index(request):
 
 def guide(request):
 	return render(request, 'bscapp/guide.html')
+
+def guidetool(request):
+	path = os.path.join('static', 'data', 'Balanced_Scorecard_Guideline.pdf')
+	if not os.path.exists(path):
+		raise Http404()
+	else:
+		return FileResponse(open(path, 'rb'), content_type='application/pdf')
 
 def access(request):
 	return render(request, 'bscapp/access_app.html')
@@ -167,11 +175,11 @@ def download_data(request):
 
 def export_to_pdf(request):
 	#FOR LINUX
-	#pdf = HTML(string=request.POST['html_string']).write_pdf(stylesheets=[CSS(filename="/home/django/balancedscorecard/bscapp/static/css/bscs.css"), CSS(filename="/home/django/balancedscorecard/bscapp/static/css/layout.css")])
-	#return FileResponse(pdf, content_type='application/pdf')
+	pdf = HTML(string=request.POST['html_string']).write_pdf(stylesheets=[CSS(filename="/home/django/balancedscorecard/bscapp/static/css/bsc.css"), CSS(filename="/home/django/balancedscorecard/bscapp/static/css/layout.css")])
+	return FileResponse(pdf, content_type='application/pdf')
 
 	#FOR WINDOWS
-	html_string = request.POST['html_string']
+	'''html_string = request.POST['html_string']
 	config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
 	css = [
 		'C:\\Users\\Joel Potts\\PycharmProjects\\onlines3_django\\bscapp\\static\\css\\bsc.css',
@@ -180,7 +188,7 @@ def export_to_pdf(request):
 	pdf = pdfkit.from_string(html_string, False, configuration=config, css=css)
 	response = FileResponse(pdf, content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename=balanced_scorecard.pdf'
-	return response
+	return response'''
 
 def callback(request):
 	code = request.GET['code']
