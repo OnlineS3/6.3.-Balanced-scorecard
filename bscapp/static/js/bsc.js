@@ -245,6 +245,7 @@ function hideModal(modalId)
 
 function generateJSON() {
 	var scn = document.getElementById("scorecard_name").innerHTML;
+	console.log(scn);
 	var output = '{"scorecard_name":"'.concat(scn).concat('",');
 	var output = output + '"tables":{';
 	var tablesarray = [document.getElementById("learngrowtable"),document.getElementById("businesstable"),document.getElementById("customertable"),document.getElementById("financialtable")];
@@ -396,6 +397,9 @@ function populateModalSelect(input)
 
 function loadJson(input) {
 	var obj = JSON.parse(input);
+
+	document.getElementById('scorecard_name').innerHTML = obj.scorecard_name;
+
 	var tableNames = Object.keys(obj.tables);
 	var tables = [obj.tables.learngrowtable, obj.tables.businesstable, obj.tables.customertable, obj.tables.financialtable];
 	for(var i = 0; i < tables.length; i++) {
@@ -472,6 +476,30 @@ function export_pdf()
 		}
 	}
 
+	var tables = document.getElementsByClassName("table");
+	for(i = 0; i < tables.length; i++)
+	{
+		tables[i].style.width = "634px";
+	}
+
+	var titlerow = document.getElementsByClassName("titlerow");
+	for(i = 0; i < titlerow.length; i++)
+	{
+		titlerow[i].style.width = "634px";
+	}
+
+	var row = document.getElementsByClassName("row");
+	for(i = 0; i < row.length; i++)
+	{
+		row[i].style.width = "634px";
+	}
+
+	var field = document.getElementsByClassName("field");
+	for(i = 0; i < field.length; i++)
+	{
+		field[i].style.width = "16%";
+	}
+
 	perspectivediv_html = document.getElementById("perspective_div").outerHTML;
 	document.getElementById("perspectivediv_html").value = perspectivediv_html;
 
@@ -497,6 +525,30 @@ function export_pdf()
 		{
 			inputfields[i].style.display = "flex";
 		}
+	}
+
+	tables = document.getElementsByClassName("table");
+	for(i = 0; i < tables.length; i++)
+	{
+		tables[i].style.width = "742px";
+	}
+
+	var titlerow = document.getElementsByClassName("titlerow");
+	for(i = 0; i < titlerow.length; i++)
+	{
+		titlerow[i].style.width = "740px";
+	}
+
+	var row = document.getElementsByClassName("row");
+	for(i = 0; i < row.length; i++)
+	{
+		row[i].style.width = "740px";
+	}
+
+	var field = document.getElementsByClassName("field");
+	for(i = 0; i < field.length; i++)
+	{
+		field[i].style.width = "14%";
 	}
 
 	document.getElementById("learngrowtable_inputrow").style.display = "block";

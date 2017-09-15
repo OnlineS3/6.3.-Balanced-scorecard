@@ -90,7 +90,7 @@
                     <div class="field">
                         Plan of Action
                     </div>
-                    <div class="field">
+                    <div class="field" id="inputfield">
                         Add/Delete
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                         Plan of Action
                     </div>
 
-                    <div class="field">
+                    <div class="field" id="inputfield">
                         Add/Delete
                     </div>
                 </div>
@@ -197,7 +197,7 @@
                     <div class="field">
                         Plan of Action
                     </div>
-                    <div class="field">
+                    <div class="field" id="inputfield">
                         Add/Delete
                     </div>
                 </div>
@@ -250,7 +250,7 @@
                     <div class="field">
                         Plan of Action
                     </div>
-                    <div class="field">
+                    <div class="field" id="inputfield">
                         Add/Delete
                     </div>
                 </div>
@@ -326,7 +326,7 @@
     </aside>
 </div>
 
-<form id="exporttopdf_form" method="post" action="{% url 'bscapp_exporttopdf' %}" style="display:none;">
+<form id="exporttopdf_form" method="post" action="{% url 'bscapp_exporttopdf' %}" style="display:none;" target="_blank">
     {% csrf_token %}
     <input type="hidden" name="html_string" id="perspectivediv_html">
 </form>

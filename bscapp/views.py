@@ -26,13 +26,6 @@ def index(request):
 def guide(request):
 	return render(request, 'bscapp/guide.html')
 
-def guidetool(request):
-	path = os.path.join('static', 'data', 'Balanced_Scorecard_Guideline.pdf')
-	if not os.path.exists(path):
-		raise Http404()
-	else:
-		return FileResponse(open(path, 'rb'), content_type='application/pdf')
-
 def access(request):
 	return render(request, 'bscapp/access_app.html')
 
@@ -148,7 +141,7 @@ def load_tables(request):
 	customer += "]},"
 	financial += "]}"
 
-	json = '{"tables":{'+ learngrow + business + customer + financial +'}}'
+	json = '{"scorecard_name": "'+scorecard_name+'", "tables":{'+ learngrow + business + customer + financial +'}}'
 
 	return HttpResponse(json)
 
