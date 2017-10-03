@@ -133,6 +133,15 @@ function createRow(year, name, measure, target, actual, plan) {
 	fieldActual.innerHTML = actual;
 	var actualid = "".concat(modal.id);
 	fieldActual.onclick = function() {displayModal(this, actualid)};
+	if(target == actual)
+	{
+		fieldActual.style.background = "#00cc33";
+		fieldActual.style.color = "white";
+	}
+	else
+	{
+		fieldActual.style.background = "yellow";
+	}
 
 	var fieldPlan = document.createElement("div");
 	fieldPlan.className = "field";
@@ -212,17 +221,6 @@ function addRow(idName) {
 	table.appendChild(createInputRow(idName));
 }
 
-function addRow5(name, measure, target, plan, tablename)
-{
-	var table = document.getElementById(tablename);
-
-	var inputRow = document.getElementById(table + "_inputrow");
-	inputRow.parentNode.removeChild(inputRow);
-
-	table.appendChild(createRow(name, measure, target, plan));
-	table.appendChild(createInputRow(idName));
-}
-
 function deleteRow(thisRow)
 {
 	thisRow.parentNode.removeChild(thisRow);
@@ -247,6 +245,9 @@ function generateJSON() {
 	var scn = document.getElementById("scorecard_name").innerHTML;
 	console.log(scn);
 	var output = '{"scorecard_name":"'.concat(scn).concat('",');
+	if(document.getElementById("scorecard_name").getAttribute("share_id")) {
+        output = output + '"share_id": "' + document.getElementById("scorecard_name").getAttribute("share_id") + '",'
+    }
 	var output = output + '"tables":{';
 	var tablesarray = [document.getElementById("learngrowtable"),document.getElementById("businesstable"),document.getElementById("customertable"),document.getElementById("financialtable")];
 
@@ -293,9 +294,52 @@ function generateJSON() {
 	return output;
 }
 
-function setSaveForm()
+function generateCSV()
 {
-	document.getElementById("tablejson_save").value = generateJSON();
+	var tablesarray = [document.getElementById("learngrowtable"),document.getElementById("businesstable"),document.getElementById("customertable"),document.getElementById("financialtable")];
+	var output = '"Table","Year","Performance Index","Method of Measure","Target Value","Actual Value","Plan of Action"';
+	for(var i = 0; i < tablesarray.length; i++) {
+		var tablename = "";
+		if(tablesarray[i].id == "learngrowtable")
+		{
+			tablename="learning_and_growth";
+		}
+		else if(tablesarray[i].id == "businesstable")
+		{
+			tablename="internal_regional";
+		}
+		else if(tablesarray[i].id == "customertable")
+		{
+			tablename="citizen";
+		}
+		else
+		{
+			tablename="vision";
+		}
+		var rows = tablesarray[i].childNodes;
+
+		for(var j = 0; j < rows.length; j++) {
+			if(rows[j].nodeType == 1 && !rows[j].id.includes("inputrow") && rows[j].id != "titlerow") {
+				var fields = rows[j].childNodes;
+				var row = '"' + tablename + '",';
+				row = row.concat('"' + fields[6].innerText + '",');
+				row = row.concat('"' + fields[7].innerText + '",');
+				row = row.concat('"' + fields[8].innerText + '",');
+				row = row.concat('"' + fields[9].innerText + '",');
+				row = row.concat('"' + fields[10].innerText + '",');
+				row = row.concat('"' + fields[11].innerText + '"');
+				output = output.concat('\n'+row);
+			}
+		}
+	}
+	console.log(output);
+	return output;
+}
+
+function setSaveForm(data, filename)
+{
+	document.getElementById("tablejson_save").value = data;
+	document.getElementById("filename_save").value = filename;
 	document.getElementById("download_data_form").submit();
 }
 
@@ -325,6 +369,7 @@ function saveScorecard()
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
+				alert(xhr.responseText)
 				console.log("status: " + status);
 				console.log("error: " + error);
 			}
@@ -336,7 +381,29 @@ function loadScorecard()
 	select = document.getElementById("scorecard_select");
 	selected_option = select.options[select.selectedIndex].value;
 
-	$.ajax({url: document.getElementById("loadtables").getAttribute("action"),
+	if(select.options[select.selectedIndex].hasAttribute('share_id'))
+	{
+		$.ajax({url: document.getElementById("loadtables").getAttribute("action"),
+			type: "POST",
+			data: {
+				scorecard_share_id: select.options[select.selectedIndex].getAttribute('share_id')
+			},
+			success: function(result){
+				console.log("success: " + result);
+				clearTables();
+				loadJson(result);
+				document.getElementById("scorecard_load_modal").style.display = "none";
+			},
+			error: function(xhr, status, error){
+				console.log("xhr: " + xhr.responseText);
+				console.log("status: " + status);
+				console.log("error: " + error);
+			}
+		});
+    }
+    else
+	{
+		$.ajax({url: document.getElementById("loadtables").getAttribute("action"),
 			type: "POST",
 			data: {
 				scorecard_name: selected_option
@@ -352,7 +419,9 @@ function loadScorecard()
 				console.log("status: " + status);
 				console.log("error: " + error);
 			}
-	});
+		});
+	}
+
 }
 
 function getScorecards()
@@ -375,23 +444,52 @@ function populateModalSelect(input)
 {
 	var modal_select = document.getElementById("scorecard_select");
 
+	//clear existing entries
 	for(i = modal_select.childNodes.length-1; i >= 0 ; i--)
 	{
-		if(modal_select.childNodes[i].nodeType == 1 && !modal_select.childNodes[i].id.includes("inputrow") && !modal_select.childNodes[i].id.includes("titlerow"))
-		{
-			modal_select.removeChild(modal_select.childNodes[i]);
-		}
+		//if(modal_select.childNodes[i].nodeType == 1 && !modal_select.childNodes[i].id.includes("inputrow") && !modal_select.childNodes[i].id.includes("titlerow"))
+		//{
+
+		modal_select.removeChild(modal_select.childNodes[i]);
+
+		//}
 	}
 
+	//populate with JSON entries
 	var obj = JSON.parse(input);
 	var cards = obj.scorecards;
-	for(i = 0; i < cards.length; i++)
+	var owned = cards.owned;
+	var shared = cards.shared;
+
+	option = document.createElement("option");
+	option.disabled = "true";
+	option.value = "-OWNED-";
+	option.innerHTML = "-OWNED-";
+	modal_select.appendChild(option);
+
+	for(i = 0; i < owned.length; i++)
 	{
 		option = document.createElement("option");
-		option.value = cards[i].scorecard_name;
-		option.innerHTML = cards[i].scorecard_name;
+		option.value = owned[i].scorecard_name;
+		option.innerHTML = owned[i].scorecard_name;
 		modal_select.appendChild(option);
 	}
+
+	option = document.createElement("option");
+	option.disabled = "true";
+	option.value = "-SHARED-";
+	option.innerHTML = "-SHARED-";
+	modal_select.appendChild(option);
+
+	for(i = 0; i < shared.length; i++)
+	{
+		option = document.createElement("option");
+		option.value = shared[i].scorecard_name;
+		option.innerHTML = shared[i].scorecard_name;
+		option.setAttribute("share_id", shared[i].share_id);
+		modal_select.appendChild(option);
+	}
+
 	document.getElementById("scorecard_load_modal").style.display = "block";
 }
 
@@ -399,6 +497,13 @@ function loadJson(input) {
 	var obj = JSON.parse(input);
 
 	document.getElementById('scorecard_name').innerHTML = obj.scorecard_name;
+	document.getElementById('scorecard_name').setAttribute("share_id", obj.share_id);
+	document.getElementById('scorecard_edit').innerHTML = obj.scorecard_name;
+
+	if("share_id" in obj)
+	{
+		document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
+	}
 
 	var tableNames = Object.keys(obj.tables);
 	var tables = [obj.tables.learngrowtable, obj.tables.businesstable, obj.tables.customertable, obj.tables.financialtable];
@@ -631,4 +736,47 @@ function loadFileAsText()
 	//document.body.removeChild(test);
 }
 
+function openShareModal()
+{
+	if(document.getElementById('share_id_in_modal').getAttribute('loaded') == 'false')
+	{
+		//get from db
+	}
+	document.getElementById("swotcard_share_modal").style.display = "block";
+}
 
+function addToShares()
+{
+	$.ajax({url: document.getElementById("addtoshares").getAttribute("action"),
+			type: "POST",
+			data: {
+				scorecard_share_id: document.getElementById("share_id_input").value
+			},
+			success: function(result){
+				getScorecards();
+				alert("Successfully added to your list")
+				console.log("success: " + result);
+			},
+			error: function(xhr, status, error){
+				console.log("xhr: " + xhr.responseText);
+				console.log("status: " + status);
+				console.log("error: " + error);
+			}
+	});
+}
+
+function newScorecard()
+{
+	//reset title
+	document.getElementById("scorecard_name").innerHTML = "Scorecard Name...";
+	document.getElementById("scorecard_edit").innerHTML = "Scorecard Name...";
+
+	//clear share_id
+	document.getElementById("scorecard_name").removeAttribute("share_id");
+
+	//clear tables
+	clearTables();
+
+	//alert
+	alert("New Scorecard Created");
+}

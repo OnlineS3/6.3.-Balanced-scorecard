@@ -285,6 +285,7 @@
 <form id="download_data_form" method="post" action="{% url 'bscapp_downloaddata' %}">
     {% csrf_token %}
     <input type="hidden" id="tablejson_save" name="tablejson">
+    <input type="hidden" id="filename_save" name="filename">
 </form>
 
 <div id="scorecard_load_modal" class="scorecard_modal" style="display: none;">
@@ -294,6 +295,19 @@
 	<select id="scorecard_select">
 	</select>
 	<button onclick="loadScorecard()">Load</button>
+
+    <h2>Load from Share ID</h2>
+    <input id="share_id_input" type="text">
+    <button onclick="addToShares()">Add to Your List</button>
+
+    <form id="addtoshares" method="post" action="{% url 'bscapp_addtoshares' %}" style="display: none;">
+    </form>
+</div>
+
+<div id="swotcard_share_modal" class="modal" style="display: none;">
+	<span class="close" onclick="hideModal('swotcard_share_modal')">&times</span>
+	<h2>Share ID</h2>
+    <p id="share_id_in_modal">This SWOT analysis is not saved yet. Please save it or load an existing SWOT analysis to get a Share ID.</p>
 </div>
 <!-- Page Content -->
 
@@ -302,12 +316,14 @@
 	<div class="sidemenu-div" >
 		<div>
 			<ul class="sidemenu">
-
+                <li id="newscorecard" onclick="newScorecard()" action="{% url 'bscapp_savetables'%}"><i class="fa fa-file "></i> New</li>
 				<li id="savetables" {% if not request.session.bscapp_profile.email %} style="background:grey;" title="Please log in to save."{% endif %} onclick="saveScorecard()" action="{% url 'bscapp_savetables'%}"><i class="fa fa-floppy-o"></i> Save</li>
 				<li id="loadtables" {% if not request.session.bscapp_profile.email %} style="background:grey;" title="Please log in to load."{% endif %} onclick="getScorecards()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-folder-open"></i> Open</li>
                 <li id="loadtables" onclick="createAndClickFile()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-upload"></i> Upload from JSON</li>
-                <li onclick="setSaveForm();"><i class="fa fa-download "></i> Export to JSON</li>
+                <li onclick="setSaveForm(generateJSON(), 'balanced_scorecard.json');"><i class="fa fa-download "></i> Export to JSON</li>
+                <li onclick="setSaveForm(generateCSV(), 'balanced_scorecard.csv');"><i class="fa fa-download "></i> Export to CSV</li>
 				<li onclick="export_pdf();"><i class="fa fa-file-pdf-o "></i> Export to PDF</li>
+                <li onclick="openShareModal()"><i class="fa fa-share-alt"></i> Share</li>
 				<li onclick="window.location = '{% url 'bscapp_guide' %}'"><i class="fa fa-question-circle-o"></i> Help</li>
 				<li onclick="window.location = '{% url 'bscapp_index' %}'"><i class="fa fa-info-circle"></i> About</li>
 			</ul>

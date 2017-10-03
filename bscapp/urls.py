@@ -14,5 +14,6 @@ urlpatterns = [
 	url(r'^getscorecards/$', views.get_scorecard_for_user, name='bscapp_getscorecards'),
 	url(r'^callback/$', views.callback, name='bscapp_callback'),
 	url(r'^exporttopdf$', views.export_to_pdf, name='bscapp_exporttopdf'),
+	url(r'^addtoshares$', views.add_scorecard_to_shares, name='bscapp_addtoshares'),
 	url(r'^$', views.index, name='bscapp_index'),
 ]
