@@ -239,7 +239,7 @@
                         Performance</br>Index
                     </div>
                     <div class="field">
-                        Method of</b>Measure
+                        Method of</br>Measure
                     </div>
                     <div class="field">
                         Target Value
@@ -288,15 +288,16 @@
     <input type="hidden" id="filename_save" name="filename">
 </form>
 
-<div id="scorecard_load_modal" class="scorecard_modal" style="display: none;">
+<div id="scorecard_load_modal" class="scorecard_modal" style="display: none; height:350px;">
 	<span class="close" onclick="hideModal('scorecard_load_modal')">&times</span>
 	<h2>Which scorecard should be loaded?</h2>
-
+    <p>Select a scorecard from the list below to load.</p>
 	<select id="scorecard_select">
 	</select>
 	<button onclick="loadScorecard()">Load</button>
 
     <h2>Load from Share ID</h2>
+    <p>A Share ID uniquely identifies a Balanced Scorecard. Enter the Share ID provided from the Balanced Scorecards owner to add it to you list of accessible Scorecards</p>
     <input id="share_id_input" type="text">
     <button onclick="addToShares()">Add to Your List</button>
 
@@ -304,9 +305,10 @@
     </form>
 </div>
 
-<div id="swotcard_share_modal" class="modal" style="display: none;">
+<div id="swotcard_share_modal" class="modal" style="display: none; height: 250px">
 	<span class="close" onclick="hideModal('swotcard_share_modal')">&times</span>
 	<h2>Share ID</h2>
+    <p>This Share ID uniquely identifies your Balanced Scorecard. Provide the following Share ID to the user you would like to have access to your Balanced Scorecard</p>
     <p id="share_id_in_modal">This SWOT analysis is not saved yet. Please save it or load an existing SWOT analysis to get a Share ID.</p>
 </div>
 <!-- Page Content -->
@@ -316,14 +318,14 @@
 	<div class="sidemenu-div" >
 		<div>
 			<ul class="sidemenu">
-                <li id="newscorecard" onclick="newScorecard()" action="{% url 'bscapp_savetables'%}"><i class="fa fa-file "></i> New</li>
-				<li id="savetables" {% if not request.session.bscapp_profile.email %} style="background:grey;" title="Please log in to save."{% endif %} onclick="saveScorecard()" action="{% url 'bscapp_savetables'%}"><i class="fa fa-floppy-o"></i> Save</li>
-				<li id="loadtables" {% if not request.session.bscapp_profile.email %} style="background:grey;" title="Please log in to load."{% endif %} onclick="getScorecards()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-folder-open"></i> Open</li>
-                <li id="loadtables" onclick="createAndClickFile()" action="{% url 'bscapp_loadtables'%}"><i class="fa fa-upload"></i> Upload from JSON</li>
-                <li onclick="setSaveForm(generateJSON(), 'balanced_scorecard.json');"><i class="fa fa-download "></i> Export to JSON</li>
-                <li onclick="setSaveForm(generateCSV(), 'balanced_scorecard.csv');"><i class="fa fa-download "></i> Export to CSV</li>
-				<li onclick="export_pdf();"><i class="fa fa-file-pdf-o "></i> Export to PDF</li>
-                <li onclick="openShareModal()"><i class="fa fa-share-alt"></i> Share</li>
+                <li id="newscorecard" onclick="newScorecard()" action="{% url 'bscapp_savetables'%}" title="Click to create new scorecard"><i class="fa fa-file "></i> New</li>
+				<li id="savetables" {% if not request.session.bscapp_profile.email %} style="background:grey;" title="Please log in to save."{% endif %} onclick="saveScorecard()" action="{% url 'bscapp_savetables'%}" title="Save current scorecard"><i class="fa fa-floppy-o"></i> Save</li>
+				<li id="loadtables" {% if not request.session.bscapp_profile.email %} style="background:grey;" title="Please log in to load."{% endif %} onclick="getScorecards()" action="{% url 'bscapp_loadtables'%}" title="Load an existing scorecard"><i class="fa fa-folder-open"></i> Open</li>
+                <li id="loadtables" onclick="createAndClickFile()" action="{% url 'bscapp_loadtables'%}" title="Load an existing scorecard from a JSON file"><i class="fa fa-upload"></i> Upload from JSON</li>
+                <li onclick="setSaveForm(generateJSON(), 'balanced_scorecard.json');" title="Export current scorecard to a JSON file"><i class="fa fa-download"></i> Export to JSON</li>
+                <li onclick="setSaveForm(generateCSV(), 'balanced_scorecard.csv');" title="Export currect scorecard to a CSV file"><i class="fa fa-download"></i> Export to CSV</li>
+				<li onclick="export_pdf();" title="Export currect scorecard to a PDF file"><i class="fa fa-file-pdf-o"></i> Export to PDF</li>
+                <li onclick="openShareModal()" title="Access Current Scorecards Share ID"><i class="fa fa-share-alt"></i> Share</li>
 				<li onclick="window.location = '{% url 'bscapp_guide' %}'"><i class="fa fa-question-circle-o"></i> Help</li>
 				<li onclick="window.location = '{% url 'bscapp_index' %}'"><i class="fa fa-info-circle"></i> About</li>
 			</ul>

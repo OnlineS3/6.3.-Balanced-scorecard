@@ -24,6 +24,7 @@ ul.sidemenu li{
 
 ul.sidemenu li:hover {
 	background-color: #ddd;
+	cursor: pointer;
 }
 
 div.sidemenu-readmore {
