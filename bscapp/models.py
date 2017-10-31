@@ -25,6 +25,7 @@ class tablerow(models.Model):
     target = models.CharField(max_length=100)
     actual = models.CharField(max_length=100)
     plan_of_action = models.CharField(max_length=100)
+    archived = models.BooleanField(default=False)
 
     class Meta:
         app_label = 'bscapp'

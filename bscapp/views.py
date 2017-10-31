@@ -41,9 +41,9 @@ def login_view(request):
 		login(request, user)
 	context = {'user': request.user}
 	'''
-	request.session['bscapp_profile'] = json.loads('{"email": "' + request.POST['username'] + '"}')
-	print request.POST['username']
-	print "logged in"
+	request.session['bscapp_profile'] = json.loads('{"email": "pottsie"}')
+	#print request.POST['username']
+	#print "logged in"
 	return redirect('bscapp_index')
 
 def logout_view(request):
@@ -81,43 +81,106 @@ def save_tables(request):
 	#2 = business
 	#3 = financial
 
-	tablerow.objects.filter(scorecard=scorecard).delete()
+	#tablerow.objects.filter(scorecard=scorecard).delete()
+
+	#for each existing record not in the json, delete that record
+	for row in tablerow.objects.filter(scorecard=scorecard):
+		if(row.table == 0):
+			if (not any(str(row.id) == j["rowid"] for j in  parsed_json["tables"]["learngrowtable"]["rows"])):
+				row.archived = True;
+				row.save()
+		elif (row.table == 1):
+			if (not any(str(row.id) == j["rowid"] for j in parsed_json["tables"]["customertable"]["rows"])):
+				row.archived = True;
+				row.save()
+		elif (row.table == 2):
+			if (not any(str(row.id) == j["rowid"] for j in parsed_json["tables"]["businesstable"]["rows"])):
+				row.archived = True;
+				row.save()
+		elif (row.table == 3):
+			if (not any(str(row.id) == j["rowid"] for j in parsed_json["tables"]["financialtable"]["rows"])):
+				row.archived = True;
+				row.save()
+
+	#for each existing record whose value has changed, update
+	#for each new record, create
 
 	for row in parsed_json["tables"]["learngrowtable"]["rows"]:
-		tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=0, year=row["year"], name=row["name"],
-													measure=row["measure"], target=row["target"], actual=row["actual"],
-													plan_of_action=row["poa"])
-		tablerow_instance.save()
+		if (any((row["rowid"] == str(j.id)) for j in tablerow.objects.filter(scorecard=scorecard,table=0,archived=False))):
+			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=0,name=row["name"],archived=False).first()
 
-		observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
-		observation_instance.save()
+			if row["actual"] != tablerow_instance.actual:
+				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+				observation_instance.save()
+
+			tablerow_instance.actual = row["actual"]
+			tablerow_instance.save()
+		elif (not any(row["rowid"] == str(j.id) for j in tablerow.objects.filter(scorecard=scorecard,table=0,archived=False))):
+
+			tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=0, year=row["year"], name=row["name"],
+														measure=row["measure"], target=row["target"], actual=row["actual"],
+														plan_of_action=row["poa"],archived=False)
+			tablerow_instance.save()
+
+			observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+			observation_instance.save()
 
 	for row in parsed_json["tables"]["customertable"]["rows"]:
-		tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=1, year=row["year"], name=row["name"],
-													measure=row["measure"], target=row["target"], actual=row["actual"],
-													plan_of_action=row["poa"])
-		tablerow_instance.save()
+		if (any((row["rowid"] == j.id) for j in tablerow.objects.filter(scorecard=scorecard,table=1,archived=False))):
+			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=1,name=row["name"],archived=False).first()
 
-		observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
-		observation_instance.save()
+			if row["actual"] != tablerow_instance.actual:
+				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+				observation_instance.save()
+
+			tablerow_instance.actual = row["actual"]
+			tablerow_instance.save()
+		elif (not any(row["rowid"] == j.id for j in tablerow.objects.filter(scorecard=scorecard,table=1,archived=False))):
+			tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=1, year=row["year"], name=row["name"],
+														measure=row["measure"], target=row["target"], actual=row["actual"],
+														plan_of_action=row["poa"])
+			tablerow_instance.save()
+
+			observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+			observation_instance.save()
 
 	for row in parsed_json["tables"]["businesstable"]["rows"]:
-		tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=2, year=row["year"], name=row["name"],
-													measure=row["measure"], target=row["target"], actual=row["actual"],
-													plan_of_action=row["poa"])
-		tablerow_instance.save()
+		if (any((row["rowid"] == j.id) for j in tablerow.objects.filter(scorecard=scorecard,table=2,archived=False))):
+			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=2, name=row["name"],archived=False).first()
 
-		observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
-		observation_instance.save()
+			if row["actual"] != tablerow_instance.actual:
+				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+				observation_instance.save()
+
+			tablerow_instance.actual = row["actual"]
+			tablerow_instance.save()
+		elif (not any(row["rowid"] == j.id for j in tablerow.objects.filter(scorecard=scorecard,table=2,archived=False))):
+			tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=2, year=row["year"], name=row["name"],
+														measure=row["measure"], target=row["target"], actual=row["actual"],
+														plan_of_action=row["poa"])
+			tablerow_instance.save()
+
+			observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+			observation_instance.save()
 
 	for row in parsed_json["tables"]["financialtable"]["rows"]:
-		tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=3, year=row["year"], name=row["name"],
-													measure=row["measure"], target=row["target"], actual=row["actual"],
-													plan_of_action=row["poa"])
-		tablerow_instance.save()
+		if (any((row["rowid"] == j.id) for j in tablerow.objects.filter(scorecard=scorecard,table=3,archived=False))):
+			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=3, name=row["name"],archived=False).first()
 
-		observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
-		observation_instance.save()
+			if row["actual"] != tablerow_instance.actual:
+				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+				observation_instance.save()
+
+			tablerow_instance.actual = row["actual"]
+			tablerow_instance.save()
+		elif (not any(row["rowid"] == j.id for j in tablerow.objects.filter(scorecard=scorecard,table=3,archived=False))):
+			tablerow_instance = tablerow.objects.create(scorecard=scorecard, table=3, year=row["year"], name=row["name"],
+														measure=row["measure"], target=row["target"], actual=row["actual"],
+														plan_of_action=row["poa"])
+			tablerow_instance.save()
+
+			observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
+			observation_instance.save()
         
 	#return redirect('index')
 	return HttpResponse(text_json)
@@ -141,7 +204,7 @@ def load_tables(request):
 
 	#scorecard_name = request.POST["scorecard_name"]
 	#scorecard = Scorecard.objects.filter(scorecard_name=scorecard_name)
-	rows = tablerow.objects.filter(scorecard=scorecard)
+	rows = tablerow.objects.filter(scorecard=scorecard,archived=False)
 	learngrow = '"learngrowtable": { "rows": ['
 	business = '"businesstable": { "rows": ['
 	customer = '"customertable": { "rows": ['
@@ -149,13 +212,13 @@ def load_tables(request):
 
 	for r in rows:
 		if r.table == 0:
-			learngrow += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '"},'
+			learngrow += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '", "rowid": "' + str(r.id) + '"},'
 		elif r.table == 1:
-			customer += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '"},'
+			customer += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '", "rowid": "' + str(r.id) + '"},'
 		elif r.table == 2:
-			business += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '"},'
+			business += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '", "rowid": "' + str(r.id) + '"},'
 		elif r.table == 3:
-			financial += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '"},'
+			financial += '{"year": "' + str(r.year) + '", "name": "' + r.name + '", "measure": "' + r.measure + '", "target": "' + r.target + '", "actual": "' + r.actual + '", "poa": "' + r.plan_of_action + '", "rowid": "' + str(r.id) + '"},'
 
 	if learngrow.endswith(","):
 		learngrow = learngrow[:len(learngrow)-1]
@@ -262,3 +325,16 @@ def add_scorecard_to_shares(request):
 			shares_instance.save()
 
 	return HttpResponse('OK');
+
+def listObservations(request):
+	rowid = request.GET['rowid']
+	observations = '{"observations":['
+	for obs in Observation.objects.filter(tablerow=tablerow.objects.filter(pk=rowid).first()):
+		observations += '{"value": "' + obs.value + '", "timestamp": "' + str(obs.timestamp) + '"},'
+
+	if observations.endswith(","):
+		observations = observations[:len(observations)-1]
+
+	observations += ']}'
+
+	return HttpResponse(observations)

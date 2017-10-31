@@ -91,7 +91,7 @@
                         Plan of Action
                     </div>
                     <div class="field" id="inputfield">
-                        Add/Delete
+                        Actions
                     </div>
                 </div>
                 <div class="row" id="learngrowtable_inputrow">
@@ -145,7 +145,7 @@
                     </div>
 
                     <div class="field" id="inputfield">
-                        Add/Delete
+                        Actions
                     </div>
                 </div>
                 <div class="row" id="businesstable_inputrow">
@@ -198,7 +198,7 @@
                         Plan of Action
                     </div>
                     <div class="field" id="inputfield">
-                        Add/Delete
+                        Actions
                     </div>
                 </div>
                 <div class="row" id="customertable_inputrow">
@@ -251,7 +251,7 @@
                         Plan of Action
                     </div>
                     <div class="field" id="inputfield">
-                        Add/Delete
+                        Actions
                     </div>
                 </div>
                 <div class="row" id="financialtable_inputrow">
@@ -310,6 +310,17 @@
 	<h2>Share ID</h2>
     <p>This Share ID uniquely identifies your Balanced Scorecard. Provide the following Share ID to the user you would like to have access to your Balanced Scorecard</p>
     <p id="share_id_in_modal">This SWOT analysis is not saved yet. Please save it or load an existing SWOT analysis to get a Share ID.</p>
+</div>
+
+<div id="historic_data_modal" class="modal" style="display: none; height: 250px; width:300px;">
+	<span class="close" onclick="hideModal('historic_data_modal')">&times</span>
+	<h2>Data History</h2>
+    <table id="historic_data_table" action="{% url 'bscapp_listobservations' %}">
+        <tr>
+            <th>Actual</th>
+            <th>Timestamp</th>
+        </tr>
+    </table>
 </div>
 <!-- Page Content -->
 

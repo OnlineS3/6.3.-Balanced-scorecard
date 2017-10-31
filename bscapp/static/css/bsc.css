@@ -160,8 +160,23 @@ button.tableinput {
 	margin-top: -100px;
 }
 
-.modalEdit {
-	width:  95%;
-	height: 95%;
-	border: 1px;
+#historic_data_table {
+	border: 1px solid #0099CC;
+    border-collapse: collapse;
+	margin: 10px;
+	font-size: 13px;
+	font-family: verdana, sans-serif;
+}
+
+#historic_data_table tr:hover{
+    background: #b3ecff;
+}
+
+#historic_data_table th{
+    background: #0099CC;
+	color: white;
+}
+
+#historic_data_table td{
+    text-align: center;
 }
