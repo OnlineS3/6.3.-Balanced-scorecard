@@ -113,7 +113,12 @@ def save_tables(request):
 				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
 				observation_instance.save()
 
+			tablerow_instance.year = row["year"]
+			tablerow_instance.name = row["name"]
+			tablerow_instance.measure = row["measure"]
+			tablerow_instance.target = row["target"]
 			tablerow_instance.actual = row["actual"]
+			tablerow_instance.plan_of_action = row["poa"]
 			tablerow_instance.save()
 		elif (not any(row["rowid"] == str(j.id) for j in tablerow.objects.filter(scorecard=scorecard,table=0,archived=False))):
 

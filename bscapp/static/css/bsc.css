@@ -23,10 +23,12 @@ div.table {
 	display: none;
 }
 
-div.row {
+#page_content div.row {
 	width:740px;
 	height: 50px;
 	position: relative;
+	margin-left: 0px;
+	margin-right: 0px;
 }
 
 div.hoverrow:hover {
@@ -177,6 +179,60 @@ button.tableinput {
 	color: white;
 }
 
-#historic_data_table td{
+#historic_data_table td, #historic_data_table th{
     text-align: center;
+}
+
+.tour-backdrop,
+.tour-step-background {
+    z-index: 0;
+}
+
+/*override bootstrap with layout.css rules*/
+#page_content body {
+    margin: 0
+}
+
+#page_content p, #page_content ul li {
+	color: #000;
+	font-size: 13px;
+	font-family: verdana,sans-serif
+}
+
+#page_content p {
+	line-height: 1.8;
+	text-align: justify;
+	padding: 3px 16px;
+}
+
+#page_content button {
+	line-height: 1;
+}
+
+#page_content h2 {
+    margin: 0;
+    color: #de1515;
+    padding: 1rem 0 0rem 1rem;
+	font-style: normal;
+	font-weight: 400;
+	clear: both;
+	font-size: 21px;
+	font-family: tahoma
+}
+
+#page_content h1 {
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 1;
+}
+#page_content h3 {
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 15.4px;
 }

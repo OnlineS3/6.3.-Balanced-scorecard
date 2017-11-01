@@ -153,6 +153,7 @@ nav#top-menu a:hover {
     cursor: pointer;
     font-size: 12px;
     color: #fff;
+    line-height: 1;
 }
 
 #header-main .login-btn:hover {
@@ -170,6 +171,7 @@ nav#top-menu a:hover {
     transition: .4s;
     cursor: pointer;
     font-size: 12px;
+    line-height: 1;
 }
 
 #header-main .logout-btn:hover {
@@ -187,10 +189,15 @@ nav#top-menu a:hover {
     transition: .4s;
     cursor: pointer;
     font-size: 12px;
+    line-height: 1;
 }
 
 #header-main .register-btn:hover {
     background: #3b89b7 
+}
+
+#header-main #userbtns span {
+    font-size: 16px;
 }
 
 #header-main .menu {

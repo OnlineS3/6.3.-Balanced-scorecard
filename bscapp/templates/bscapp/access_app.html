@@ -2,27 +2,38 @@
 {% load static %}
 
 {% block addHead %}
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<!-- Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- Walk-through -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/js/bootstrap-tour.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.11.0/css/bootstrap-tour.min.css" />
+
+<!-- Auth0 -->
+<script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
+
+<!-- Local JS Files -->
+<script type="text/javascript" src="{% static 'js/bsc.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/transition.js' %}"></script>
+
+<!-- Local CSS Files -->
 <link rel="stylesheet" type="text/css" href="{% static 'css/bsc.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/appmenu.css' %}">
-<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/roadmap.css' %}"> -->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdn.auth0.com/js/auth0/8.7/auth0.min.js"></script>
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-<script type="text/javascript" src="{% static 'js/bsc.js' %}"></script>
-<!-- <script type="text/javascript" src="{% static 'js/roadmap.js' %}"></script> -->
-<script type="text/javascript" src="{% static 'js/transition.js' %}"></script>
 {% endblock %}
 
 <!-- Application's space -->
 {% block content %}
 
 <!-- Page Content -->
-<div style="float:left; margin-left: 66px; width:745px;">
+<div id="page_content" style="float:left; margin-left: 66px; width:745px;">
 	<h1 id="section-title">Balanced Scorecard</h1>
 
 	<div id="scorecard_name_div">
-		<h1 id="scorecard_name" style="display: inline-block;">Scorecard Name... </h1>
+		<h1 id="scorecard_name" style="display: inline-block;">Scorecard Name...</h1>
 		<i onclick="showScorecardNameEdit()" class="fa fa-pencil" aria-hidden="true"></i>
 	</div>
 
@@ -31,7 +42,7 @@
 		<i onclick="hideScorecardNameEdit()" class="fa fa-floppy-o" aria-hidden="true"></i>
 	</div>
 
-	<div style="clear:both;">
+	<div id="perspectives_div" style="clear:both;">
 		<div id="learn_grow_button" class="div-button-active" style="margin-left: 116px;" onclick="set_layout('learngrow')">
 			<div name="icons" style="margin:5px">
 				<i class="fa fa-graduation-cap" aria-hidden="true"></i>
@@ -72,22 +83,22 @@
 
             <div id= "learngrowtable" class="table" style="margin-top: 21px;">
                 <div class="titlerow" id="titlerow">
-                    <div class="field first">
+                    <div id="learngrowtable_title_year" class="field first">
                         Year
                     </div>
-                    <div class="field">
+                    <div id="learngrowtable_title_name" class="field">
                         Performance</br>Index
                     </div>
-                    <div class="field">
+                    <div id="learngrowtable_title_measure" class="field">
                         Method of</br>Measure
                     </div>
-                    <div class="field">
+                    <div id="learngrowtable_title_target" class="field">
                         Target Value
                     </div>
-                    <div class="field">
+                    <div id="learngrowtable_title_actual" class="field">
                         Actual Value
                     </div>
-                    <div class="field">
+                    <div id="learngrowtable_title_plan" class="field">
                         Plan of Action
                     </div>
                     <div class="field" id="inputfield">
@@ -326,7 +337,7 @@
 
 <!-- Page Menus -->
 <div style="float: left; margin-left: 66px; margin-top: 61px">
-	<div class="sidemenu-div" >
+	<div id="sidemenu-div" class="sidemenu-div" >
 		<div>
 			<ul class="sidemenu">
                 <li id="newscorecard" onclick="newScorecard()" action="{% url 'bscapp_savetables'%}" title="Click to create new scorecard"><i class="fa fa-file "></i> New</li>

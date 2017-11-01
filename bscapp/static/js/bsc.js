@@ -773,31 +773,180 @@ function export_pdf()
 }
 
 $(document).ready(function() {
-  var auth = new auth0.WebAuth({
-    domain: 'onlines3.eu.auth0.com',
-    clientID: 'vE0hJ4Gx1uYG9LBtuxgqY7CTIFmKivFH'
-   });
+	var auth = new auth0.WebAuth({
+		domain: 'onlines3.eu.auth0.com',
+		clientID: 'vE0hJ4Gx1uYG9LBtuxgqY7CTIFmKivFH'
+	});
 
+  	var tour = new Tour({
+		backdrop:"true",
+		onEnd: function (tour) {
+			window.location = document.getElementById("tool").getAttribute("href");
+			if(document.getElementById("visionsession_list"))
+			{
+				getSessions();
+			}
+		},
+		steps: [
+			{
+				element: "#userbtns",
+				title: "Sign in",
+				content: "Sign in or Sign up to gain full access to the app.",
+			},
+			{
+				element: "#scorecard_name",
+				title: "Balanced Scorecard Name",
+				content: "It is possible to edit this name using the pencil icon to its right.",
+				onNext: function(){
+					loadDemo();
+				}
+			},
+			{
+				element: "#perspectives_div",
+				title: "Perspective Buttons",
+				content: "Uses these buttons to switch perspectives."
+			},
+			{
+				element: "#learn_grow_button",
+				title: "Learning and Growth Perspective",
+				content: "Use this perspective to track changes and set goals regarding learning and growth of a region."
+			},
+			{
+				element: "#business_button",
+				title: "Internal Regional Perspective",
+				content: "Use this perspective to track changes and set goals regarding internal regional affairs."
+			},
+			{
+				element: "#customer_button",
+				title: "Citizen Perspective",
+				content: "Use this perspective to track changes and set goals regarding citizen data."
+			},
+			{
+				element: "#financial_button",
+				title: "Vision Perspective",
+				content: "Use this perspective to track changes and set goals regarding visions you have set."
+			},
+			{
+				element: "#learngrowtable",
+				title: "Balanced Scorecard Table",
+				content: "Use these tables to enter data for your balanced scorecard.",
+				onNext: function(){
+					document.getElementById("learngrowtable_title_year").style.color = "black";
+				}
+			},
+			{
+				element: "#learngrowtable_title_year",
+				title: "Year",
+				content: "Use this column to record the year the observation was made.",
+				onNext: function(){
+					document.getElementById("learngrowtable_title_year").style.color = "white";
+					document.getElementById("learngrowtable_title_name").style.color = "black";
+				}
+			},
+			{
+				element: "#learngrowtable_title_name",
+				title: "Performance Index",
+				content: "Use this column to record name the type of performance you are measuring.",
+				onNext: function(){
+					document.getElementById("learngrowtable_title_name").style.color = "white";
+					document.getElementById("learngrowtable_title_measure").style.color = "black";
+				}
+			},
+			{
+				element: "#learngrowtable_title_measure",
+				title: "Method of Measure",
+				content: "Use this column to record how you will measure the data.",
+				onNext: function(){
+					document.getElementById("learngrowtable_title_measure").style.color = "white";
+					document.getElementById("learngrowtable_title_target").style.color = "black";
+				}
+			},
+			{
+				element: "#learngrowtable_title_target",
+				title: "Target Value",
+				content: "Use this column to record the value you are aiming to achieve by the next measurement.",
+				onNext: function(){
+					document.getElementById("learngrowtable_title_target").style.color = "white";
+					document.getElementById("learngrowtable_title_actual").style.color = "black";
+				}
+			},
+			{
+				element: "#learngrowtable_title_actual",
+				title: "Actual Value",
+				content: "Use this column to record the actual current value. This column will be colored green if it matches the target value, or yellow if it does not.",
+				onNext: function(){
+					document.getElementById("learngrowtable_title_actual").style.color = "white";
+					document.getElementById("learngrowtable_title_plan").style.color = "black";
+				}
+			},
+			{
+				element: "#learngrowtable_title_plan",
+				title: "Plan of Action",
+				content: "Use this column to record the course of action you will take to achieve your target value.",
+				onNext: function(){
+					document.getElementById("learngrowtable_title_plan").style.color = "white";
+					document.getElementById("inputfield").style.color = "black";
+				}
+			},
+			{
+				element: "#inputfield",
+				title: "Table Actions",
+				content: "Use this column to perform table actions, such as adding or deleting rows, editing rows, or viewing a rows data history.",
+				onNext: function(){
+					document.getElementById("inputfield").style.color = "white";
+					document.getElementById("historic_data_modal").style.display = "block";
+				}
+			},
+			{
+				element: "#historic_data_table",
+				title: "Historic Data",
+				content: "This table shows the data history for a given row. It shows what 'Actual' value it had at a corresponding timestamp.",
+				onNext: function(){
+					document.getElementById("historic_data_modal").style.display = "none";
+				}
+			},
+			{
+				element: "#learngrowtable_inputrow",
+				title: "Input Row",
+				content: "Use this row to input data into the table."
+			},
+			{
+				element: "#sidemenu-div",
+				title: "Balanced Scorecard Menu",
+				content: "This menu allows you to save, load, export, and import your balanced scorecard via various methods."
+			}
+		]
+	});
+	tour.init();
+	tour.start();
 
-    $('.login-btn').click(function(e) {
-      e.preventDefault();
-      auth.authorize({
-        audience: 'https://onlines3.eu.auth0.com/userinfo',
-        scope: 'openid profile email',
-        responseType: 'code',
-        redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
-      });
-    });
+	if(tour.ended())
+	{
+		document.getElementById("scorecard_name").innerHTML = "Scorecard Name...";
+		document.getElementById("scorecard_edit").innerHTML = "Scorecard Name...";
+		document.getElementById("scorecard_name").removeAttribute("share_id");
+		clearTables();
+	}
 
-    $('.register-btn').click(function(e) {
-      e.preventDefault();
-      auth.authorize({
-        audience: 'https://onlines3.eu.auth0.com/userinfo',
-        scope: 'openid profile email',
-        responseType: 'code',
-        redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
-      });
-    });
+	$('.login-btn').click(function(e) {
+	  e.preventDefault();
+	  auth.authorize({
+		audience: 'https://onlines3.eu.auth0.com/userinfo',
+		scope: 'openid profile email',
+		responseType: 'code',
+		redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
+	  });
+	});
+
+	$('.register-btn').click(function(e) {
+	  e.preventDefault();
+	  auth.authorize({
+		audience: 'https://onlines3.eu.auth0.com/userinfo',
+		scope: 'openid profile email',
+		responseType: 'code',
+		redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
+	  });
+	});
 });
 
 
@@ -940,4 +1089,11 @@ function getHistoricData(thisRow)
 				console.log("error: " + error);
 			}
 	});
+}
+
+function loadDemo()
+{
+	loadJson('{"scorecard_name":"Demo Scorecard","tables":{"learngrowtable":{"rows":[{"year":"2017","name":"Sales","measure":"Greater Than","target":"75","actual":"50","poa":"Get More Sale...","rowid":"new"},{"year":"2017","name":"Satisfaction","measure":"Happiness","target":"50","actual":"50","poa":"Make customer...","rowid":"new"},{"year":"2017","name":"Quality","measure":"Complaints","target":"0","actual":"13","poa":"Have the best...","rowid":"new"}]},"businesstable":{"rows":[]},"customertable":{"rows":[]},"financialtable":{"rows":[]}}}');
+	populateHistoricModal('{"observations":[{"value": "30", "timestamp":"2014"},{"value": "25", "timestamp":"2015"},{"value": "20", "timestamp":"2016"}]}');
+	hideModal('historic_data_modal');
 }
