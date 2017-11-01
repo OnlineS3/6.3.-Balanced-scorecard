@@ -107,7 +107,7 @@ def save_tables(request):
 
 	for row in parsed_json["tables"]["learngrowtable"]["rows"]:
 		if (any((row["rowid"] == str(j.id)) for j in tablerow.objects.filter(scorecard=scorecard,table=0,archived=False))):
-			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=0,name=row["name"],archived=False).first()
+			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=0,pk=row["rowid"],archived=False).first()
 
 			if row["actual"] != tablerow_instance.actual:
 				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
@@ -132,7 +132,7 @@ def save_tables(request):
 
 	for row in parsed_json["tables"]["customertable"]["rows"]:
 		if (any((row["rowid"] == j.id) for j in tablerow.objects.filter(scorecard=scorecard,table=1,archived=False))):
-			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=1,name=row["name"],archived=False).first()
+			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=1,pk=row["rowid"],archived=False).first()
 
 			if row["actual"] != tablerow_instance.actual:
 				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
@@ -151,7 +151,7 @@ def save_tables(request):
 
 	for row in parsed_json["tables"]["businesstable"]["rows"]:
 		if (any((row["rowid"] == j.id) for j in tablerow.objects.filter(scorecard=scorecard,table=2,archived=False))):
-			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=2, name=row["name"],archived=False).first()
+			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=2, pk=row["rowid"],archived=False).first()
 
 			if row["actual"] != tablerow_instance.actual:
 				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])
@@ -170,7 +170,7 @@ def save_tables(request):
 
 	for row in parsed_json["tables"]["financialtable"]["rows"]:
 		if (any((row["rowid"] == j.id) for j in tablerow.objects.filter(scorecard=scorecard,table=3,archived=False))):
-			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=3, name=row["name"],archived=False).first()
+			tablerow_instance = tablerow.objects.filter(scorecard=scorecard, table=3, pk=row["rowid"],archived=False).first()
 
 			if row["actual"] != tablerow_instance.actual:
 				observation_instance = Observation.objects.create(tablerow=tablerow_instance, value=row["actual"])

@@ -597,15 +597,21 @@ function populateModalSelect(input)
 }
 
 function loadJson(input) {
+	//reset page
+	document.getElementById("scorecard_name").innerHTML = "Scorecard Name...";
+	document.getElementById("scorecard_edit").innerHTML = "Scorecard Name...";
+	document.getElementById("scorecard_name").removeAttribute("share_id");
+	clearTables();
+
 	var obj = JSON.parse(input);
 
 	document.getElementById('scorecard_name').innerHTML = obj.scorecard_name;
-	document.getElementById('scorecard_name').setAttribute("share_id", obj.share_id);
 	document.getElementById('scorecard_edit').innerHTML = obj.scorecard_name;
 
 	if("share_id" in obj)
 	{
 		document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
+		document.getElementById('scorecard_name').setAttribute("share_id", obj.share_id);
 	}
 
 	var tableNames = Object.keys(obj.tables);
