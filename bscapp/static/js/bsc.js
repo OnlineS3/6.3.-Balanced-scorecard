@@ -784,6 +784,26 @@ $(document).ready(function() {
 		clientID: 'vE0hJ4Gx1uYG9LBtuxgqY7CTIFmKivFH'
 	});
 
+	$('.login-btn').click(function(e) {
+	  e.preventDefault();
+	  auth.authorize({
+		audience: 'https://onlines3.eu.auth0.com/userinfo',
+		scope: 'openid profile email',
+		responseType: 'code',
+		redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
+	  });
+	});
+
+	$('.register-btn').click(function(e) {
+	  e.preventDefault();
+	  auth.authorize({
+		audience: 'https://onlines3.eu.auth0.com/userinfo',
+		scope: 'openid profile email',
+		responseType: 'code',
+		redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
+	  });
+	});
+
   	var tour = new Tour({
 		backdrop:"true",
 		onEnd: function (tour) {
@@ -933,26 +953,6 @@ $(document).ready(function() {
 		document.getElementById("scorecard_name").removeAttribute("share_id");
 		clearTables();
 	}
-
-	$('.login-btn').click(function(e) {
-	  e.preventDefault();
-	  auth.authorize({
-		audience: 'https://onlines3.eu.auth0.com/userinfo',
-		scope: 'openid profile email',
-		responseType: 'code',
-		redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
-	  });
-	});
-
-	$('.register-btn').click(function(e) {
-	  e.preventDefault();
-	  auth.authorize({
-		audience: 'https://onlines3.eu.auth0.com/userinfo',
-		scope: 'openid profile email',
-		responseType: 'code',
-		redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
-	  });
-	});
 });
 
 
