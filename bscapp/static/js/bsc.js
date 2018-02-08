@@ -467,8 +467,36 @@ function saveScorecard()
 				tablejson: generateJSON()
 			},
 			success: function(result){
+				console.log(result);
+				var obj = JSON.parse(result);
+				if("share_id" in obj) {
+                    document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
+                    document.getElementById("scorecard_name").setAttribute("share_id", obj.share_id);
+                    checkDeleteCss();
+                }
 				console.log("success: " + result);
 				alert("Scorecard succesfully saved.")
+			},
+			error: function(xhr, status, error){
+				console.log("xhr: " + xhr.responseText);
+				alert(xhr.responseText);
+				console.log("status: " + status);
+				console.log("error: " + error);
+			}
+	});
+}
+
+function deleteScorecard()
+{
+	$.ajax({url: document.getElementById("deletetables").getAttribute("action"),
+			type: "POST",
+			data: {
+				tablejson: generateJSON()
+			},
+			success: function(result){
+				//reset table
+				console.log("success: " + result);
+				alert("Scorecard succesfully deleted.")
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
@@ -496,6 +524,7 @@ function loadScorecard()
 				clearTables();
 				loadJson(result);
 				document.getElementById("scorecard_load_modal").style.display = "none";
+
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
@@ -612,6 +641,7 @@ function loadJson(input) {
 	{
 		document.getElementById("share_id_in_modal").innerHTML = obj.share_id;
 		document.getElementById('scorecard_name').setAttribute("share_id", obj.share_id);
+		checkDeleteCss();
 	}
 
 	var tableNames = Object.keys(obj.tables);
@@ -803,6 +833,8 @@ $(document).ready(function() {
 		redirectUri: 'http://li1088-54.members.linode.com:8082/bscapp/callback/'
 	  });
 	});
+
+	checkDeleteCss();
 
   	var tour = new Tour({
 		backdrop:"true",
@@ -1008,6 +1040,11 @@ function openShareModal()
 	document.getElementById("swotcard_share_modal").style.display = "block";
 }
 
+function confirmDelete()
+{
+	document.getElementById("confirm_delete_modal").style.display = "block";
+}
+
 function addToShares()
 {
 	$.ajax({url: document.getElementById("addtoshares").getAttribute("action"),
@@ -1039,6 +1076,7 @@ function newScorecard()
 
 	//clear tables
 	clearTables();
+	checkDeleteCss();
 
 	//alert
 	alert("New Scorecard Created");
@@ -1102,4 +1140,19 @@ function loadDemo()
 	loadJson('{"scorecard_name":"Demo Scorecard","tables":{"learngrowtable":{"rows":[{"year":"2017","name":"Sales","measure":"Greater Than","target":"75","actual":"50","poa":"Get More Sale...","rowid":"new"},{"year":"2017","name":"Satisfaction","measure":"Happiness","target":"50","actual":"50","poa":"Make customer...","rowid":"new"},{"year":"2017","name":"Quality","measure":"Complaints","target":"0","actual":"13","poa":"Have the best...","rowid":"new"}]},"businesstable":{"rows":[]},"customertable":{"rows":[]},"financialtable":{"rows":[]}}}');
 	populateHistoricModal('{"observations":[{"value": "30", "timestamp":"2014"},{"value": "25", "timestamp":"2015"},{"value": "20", "timestamp":"2016"}]}');
 	hideModal('historic_data_modal');
+}
+
+function checkDeleteCss()
+{
+	if(!document.getElementById("scorecard_name").hasAttribute("share_id"))
+	{
+		document.getElementById("deletetables").style = "background:grey;cursor:default;"
+		document.getElementById("deletetables").title = "Please load a saved scorecard to delete it"
+		document.getElementById("deletetables").setAttribute("onclick", "");
+	}
+	else
+	{
+		document.getElementById("deletetables").style = "cursor:pointer;"
+		document.getElementById("deletetables").setAttribute("onclick", "confirmDelete()");
+	}
 }

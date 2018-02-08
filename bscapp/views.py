@@ -188,7 +188,26 @@ def save_tables(request):
 			observation_instance.save()
         
 	#return redirect('index')
-	return HttpResponse(text_json)
+	return HttpResponse(json.dumps(parsed_json))
+
+#delete table
+def delete_tables(request):
+	text_json = request.POST['tablejson']
+	parsed_json = json.loads(text_json)
+	scorecard = None
+
+	if "share_id" in parsed_json:
+		# save existing
+		scorecard = Scorecard.objects.filter(share_id=parsed_json["share_id"]).first()
+		if scorecard.user_email == request.session['bscapp_profile']['email']:
+			scorecard.delete()
+		else:
+			return HttpResponse("You do not own this scorecard", status=403)
+	else:
+		return HttpResponse("Error deleting scorecard", status=404)
+
+	return HttpResponse("Success", status=200)
+
 
 def load_tables(request):
 	scorecard = ""

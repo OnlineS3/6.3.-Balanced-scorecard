@@ -9,6 +9,7 @@ urlpatterns = [
 	url(r'^loginview/$', views.login_view, name='bscapp_loginview'),
 	url(r'^logoutview/$', views.logout, name='bscapp_logoutview'),
 	url(r'^savetables/$', views.save_tables, name='bscapp_savetables'),
+	url(r'^deletetables/$', views.delete_tables, name='bscapp_deletetables'),
 	url(r'^loadtables/$', views.load_tables, name='bscapp_loadtables'),
 	url(r'^downloaddata/$', views.download_data, name='bscapp_downloaddata'),
 	url(r'^getscorecards/$', views.get_scorecard_for_user, name='bscapp_getscorecards'),
