@@ -68,6 +68,7 @@ function createModal(content, type) {
 	modal.className = "modal";
 
 	var modalClose = document.createElement("span");
+	modalClose.style="color:#aaa"
 	modalClose.className = "close";
 	modalClose.innerHTML = "&times";
 	modal.appendChild(modalClose);
@@ -100,10 +101,9 @@ function createRow(year, name, measure, target, actual, plan) {
 	fieldYear.setAttribute("value", year);
 	if(year.length > 12)
 	{
-		var modal = createModal(year,"content");
-		row.appendChild(modal);
-		var yearid = "".concat(modal.id);
-		fieldYear.onclick = function() {displayModal(this, yearid)};
+		fieldYear.onclick = function() {
+			var modal = createModalNotification("Year", year, row);
+		};
 		fieldYear.innerHTML = year.substring(0,13) + "...";
 	}
 	else{fieldYear.innerHTML = year;}
@@ -113,10 +113,9 @@ function createRow(year, name, measure, target, actual, plan) {
 	fieldName.setAttribute("value", name);
 	if(name.length > 12)
 	{
-		var modal = createModal(name,"content");
-		row.appendChild(modal);
-		var nameid = "".concat(modal.id);
-		fieldName.onclick = function() {displayModal(this, nameid)};
+		fieldName.onclick = function() {
+			var modal = createModalNotification("Name", name, row);
+		};
 		fieldName.innerHTML = name.substring(0,13) + "...";
 	}
 	else{fieldName.innerHTML = name;}
@@ -126,10 +125,9 @@ function createRow(year, name, measure, target, actual, plan) {
 	fieldMeasure.setAttribute("value", measure);
 	if(measure.length > 12)
 	{
-		var modal = createModal(measure,"content");
-		row.appendChild(modal);
-		var measureid = "".concat(modal.id);
-		fieldMeasure.onclick = function() {displayModal(this, measureid)};
+		fieldMeasure.onclick = function() {
+			var modal = createModalNotification("Measure", measure, row);
+		};
 		fieldMeasure.innerHTML = measure.substring(0,13) + "...";
 	}
 	else{fieldMeasure.innerHTML = measure;}
@@ -139,10 +137,9 @@ function createRow(year, name, measure, target, actual, plan) {
 	fieldTarget.setAttribute("value", target);
 	if(target.length > 12)
 	{
-		var modal = createModal(target,"content");
-		row.appendChild(modal);
-		var targetid = "".concat(modal.id);
-		fieldTarget.onclick = function() {displayModal(this, targetid)};
+		fieldTarget.onclick = function() {
+			var modal = createModalNotification("Target Value", target, row);
+		};
 		fieldTarget.innerHTML = target.substring(0,13) + "...";
 	}
 	else{fieldTarget.innerHTML = target;}
@@ -152,22 +149,47 @@ function createRow(year, name, measure, target, actual, plan) {
 	fieldActual.setAttribute("value", actual);
 	if(actual.length > 12)
 	{
-		var modal = createModal(actual,"content");
-		row.appendChild(modal);
-		var actualid = "".concat(modal.id);
-		fieldActual.onclick = function() {displayModal(this, actualid)};
+		fieldActual.onclick = function() {
+			var modal = createModalNotification("Actual Value", actual, row);
+		};
 		fieldActual.innerHTML = actual.substring(0,13) + "...";
 	}
 	else{fieldActual.innerHTML = actual;}
 	//fieldActual.innerHTML = actual;
-	if(target == actual)
+
+	//color actual value fields
+	console.log(!isNaN(target) && !isNaN(actual));
+	if(!isNaN(target) && !isNaN(actual))
 	{
-		fieldActual.style.background = "#00cc33";
-		fieldActual.style.color = "white";
+		if(Number.parseFloat(target) == Number.parseFloat(actual))
+		{
+			console.log(target + "equal to" + actual);
+			fieldActual.style.background = "yellow";
+		}
+		else if (Number.parseFloat(target) < Number.parseFloat(actual))
+		{
+			console.log(target + "less than" + actual);
+			fieldActual.style.background = "green";
+			fieldActual.style.color = "white";
+		}
+		else if (Number.parseFloat(target) > Number.parseFloat(actual))
+		{
+			console.log(target + "greater than" + actual);
+			fieldActual.style.background = "red";
+			fieldActual.style.color = "white";
+		}
 	}
 	else
 	{
-		fieldActual.style.background = "yellow";
+		if(target == actual)
+		{
+			fieldActual.style.background = "yellow";
+		}
+		else
+		{
+			fieldActual.style.background = "red";
+			fieldActual.style.color = "white";
+		}
 	}
 
 	var fieldPlan = document.createElement("div");
@@ -175,10 +197,9 @@ function createRow(year, name, measure, target, actual, plan) {
 	fieldPlan.setAttribute("value", plan);
 	if(plan.length > 12)
 	{
-		var modal = createModal(plan,"content");
-		row.appendChild(modal);
-		var planid = "".concat(modal.id);
-		fieldPlan.onclick = function() {displayModal(this, planid)};
+		fieldPlan.onclick = function() {
+			var modal = createModalNotification("Plan of Action", plan, row);
+		};
 		fieldPlan.innerHTML = plan.substring(0,13) + "...";
 	}
 	else{fieldPlan.innerHTML = plan;}
@@ -475,11 +496,11 @@ function saveScorecard()
                     checkDeleteCss();
                 }
 				console.log("success: " + result);
-				alert("Scorecard succesfully saved.")
+				createModalNotification("Notification", "Scorecard succesfully saved.", document.body)
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
-				alert(xhr.responseText);
+				createModalNotification("Notification", xhr.responseText, document.body);
 				console.log("status: " + status);
 				console.log("error: " + error);
 			}
@@ -496,11 +517,11 @@ function deleteScorecard()
 			success: function(result){
 				//reset table
 				console.log("success: " + result);
-				alert("Scorecard succesfully deleted.")
+				createModalNotification("Notification", "Scorecard succesfully deleted.", document.body)
 			},
 			error: function(xhr, status, error){
 				console.log("xhr: " + xhr.responseText);
-				alert(xhr.responseText);
+				createModalNotification("Notification", xhr.responseText, document.body);
 				console.log("status: " + status);
 				console.log("error: " + error);
 			}
@@ -1054,7 +1075,7 @@ function addToShares()
 			},
 			success: function(result){
 				getScorecards();
-				alert("Successfully added to your list");
+				createModalNotification("Notification", "Successfully added to your list", document.body);
 				console.log("success: " + result);
 			},
 			error: function(xhr, status, error){
@@ -1079,7 +1100,7 @@ function newScorecard()
 	checkDeleteCss();
 
 	//alert
-	alert("New Scorecard Created");
+	createModalNotification("Notification", "New Scorecard Created", document.body);
 }
 
 function populateHistoricModal(json)
@@ -1155,4 +1176,47 @@ function checkDeleteCss()
 		document.getElementById("deletetables").style = "cursor:pointer;"
 		document.getElementById("deletetables").setAttribute("onclick", "confirmDelete()");
 	}
+}
+
+function createModalNotification(header, content, parent)
+{
+	$("#notification_modal").remove();
+
+	var modal = document.createElement("div");
+	modal.className = "modal";
+	modal.id = "notification_modal";
+
+	var headerDiv = document.createElement("div");
+	headerDiv.className = "modalheader";
+
+	var headerText = document.createElement("div");
+	headerText.style = "float:left";
+
+	var closeDiv = document.createElement("div");
+	closeDiv.style = "float:right";
+
+	var closeSpan = document.createElement("div");
+	closeSpan.className = "close";
+	closeSpan.innerHTML = "&times";
+	closeSpan.onclick = function(){
+		$("#notification_modal").remove();
+	};
+
+	var headerElem = document.createElement("p");
+	headerElem.innerHTML = header;
+
+	var contentElem = document.createElement("p");
+	contentElem.innerHTML = content;
+
+	modal.appendChild(headerDiv);
+	headerDiv.appendChild(headerText);
+	headerText.appendChild(headerElem);
+	headerDiv.appendChild(closeDiv);
+	closeDiv.appendChild(closeSpan);
+
+	modal.appendChild(contentElem);
+
+	parent.appendChild(modal);
+	document.getElementById("notification_modal").style.display = "block";
+	return modal;
 }

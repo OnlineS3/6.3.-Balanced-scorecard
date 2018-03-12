@@ -1,0 +1,84 @@
+.modal {
+	display:none;
+	background: white;
+	border: 1px solid #0099CC;
+	width: 600px;
+	height: 200px;
+	z-index: 1;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -100px;
+}
+
+.s3_modal {
+	display:none;
+	background: white;
+	border: 1px solid #0099CC;
+	width: 600px;
+	height: 200px;
+	z-index: 1;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -100px;
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+	padding-right: 5px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+	padding-left: 0px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modalheader {
+	border-bottom: 1px solid #0099CC;
+	background: #0099CC;
+	height: 37.8px;
+}
+
+#notification_modal .modalheader p {
+	margin: 0;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 21px;
+	font-family: tahoma;
+
+	color: white;
+	padding-left: 5px;
+	padding-right:0px;
+	padding-bottom:0px;
+	padding-top: 0px;
+}
+
+.modalheader p {
+	margin: 0;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 21px;
+	font-family: tahoma;
+
+	color: white;
+	padding-left: 5px;
+	padding-right:0px;
+	padding-bottom:0px;
+	padding-top: 0px;
+}
+
+.modalcontent {
+	padding: 5px;
+}
